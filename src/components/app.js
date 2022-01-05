@@ -24,17 +24,17 @@ export default function App(props) {
                 loggedInUser = loggedInUser.access_token;
                 toggleLogIn();
                 // assume that the token needs to be refreshed
-                axios
-                    .post(`${process.env.REACT_APP_DOMAIN}/auth/refresh`, { loggedInUser })
-                    .then((response) => {
-                        // console.log(response);
-                        if (response.data) {
-                            localStorage.setItem("user", JSON.stringify(response.data));
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                // axios
+                //     .post(`${process.env.REACT_APP_DOMAIN}/auth/refresh`, { loggedInUser })
+                //     .then((response) => {
+                //         // console.log(response);
+                //         if (response.data) {
+                //             localStorage.setItem("user", JSON.stringify(response.data));
+                //         }
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+                //     });
                 axios
                     .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
                         headers: {
@@ -51,7 +51,7 @@ export default function App(props) {
                     .catch((error) => console.log(error));
             }
         }
-    }, []);
+    });
 
     const getActiveProfile = async () => {
         if (loggedIn) {
