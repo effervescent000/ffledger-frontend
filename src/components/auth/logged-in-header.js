@@ -5,6 +5,15 @@ import { UserContext } from "../user-context";
 
 export default function () {
     const userContext = useContext(UserContext);
+
+    const handleClick = event => {
+        event.preventDefault();
+        if (userContext.loggedIn === true) {
+            userContext.toggleLogIn()
+            localStorage.clear()
+        }
+    }
+
     return (
         <div id="logged-in">
             <div id="greeting">Hi uhhh username!</div>
@@ -16,12 +25,4 @@ export default function () {
             </div>
         </div>
     );
-
-    function handleClick(event) {
-        event.preventDefault();
-        if (userContext.loggedIn === true) {
-            userContext.toggleLogIn()
-            localStorage.clear()
-        }
-    }
 }
