@@ -12,7 +12,7 @@ export default function () {
                 <Link to="/profiles/manage">Manage profiles</Link>
             </div>
             <div id="logout">
-                <button onClick={event => handleClick(event)}>Logout</button>
+                <button onClick={handleClick}>Logout</button>
             </div>
         </div>
     );

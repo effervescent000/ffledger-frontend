@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 
@@ -16,6 +16,7 @@ import { UserContext } from "./user-context";
 export default function App(props) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [profile, setProfile] = useState({});
+    // const {profile, setProfile} = useContext(UserContext);
 
     useEffect(() => {
         if (!loggedIn) {
@@ -24,6 +25,7 @@ export default function App(props) {
                 loggedInUser = loggedInUser.access_token;
                 toggleLogIn();
                 // assume that the token needs to be refreshed
+                // I am turning this off until I can get it to stop throwing an error all the time
                 // axios
                 //     .post(`${process.env.REACT_APP_DOMAIN}/auth/refresh`, { loggedInUser })
                 //     .then((response) => {
@@ -53,27 +55,27 @@ export default function App(props) {
         }
     });
 
-    const getActiveProfile = async () => {
-        if (loggedIn) {
-            let activeProfile = {};
-            let response = await axios
-                .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-                    headers: {
-                        Authorization: `Bearer ${
-                            JSON.parse(localStorage.getItem("user")).access_token
-                        }`,
-                    },
-                })
-                .then((response) => {
-                    if (response.data) {
-                        // activeProfile = response.data
-                        return response.data;
-                    }
-                })
-                .catch((error) => console.log(error));
-            console.log(response.resolve());
-        }
-    };
+    // const getActiveProfile = async () => {
+    //     if (loggedIn) {
+    //         let activeProfile = {};
+    //         let response = await axios
+    //             .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${
+    //                         JSON.parse(localStorage.getItem("user")).access_token
+    //                     }`,
+    //                 },
+    //             })
+    //             .then((response) => {
+    //                 if (response.data) {
+    //                     // activeProfile = response.data
+    //                     return response.data;
+    //                 }
+    //             })
+    //             .catch((error) => console.log(error));
+    //         console.log(response.resolve());
+    //     }
+    // };
 
     const toggleLogIn = () => {
         if (loggedIn) {
@@ -97,7 +99,7 @@ export default function App(props) {
 
     return (
         <Router>
-            <UserContext.Provider value={{ loggedIn: loggedIn, toggleLogIn: toggleLogIn }}>
+            <UserContext.Provider value={{ loggedIn: loggedIn, toggleLogIn: toggleLogIn, profile: profile, setProfile: setProfile }}>
                 <div className="app">
                     <Header />
                 </div>
