@@ -1,34 +1,29 @@
 import React, { useState, useEffect } from "react";
+import UserManagementDetail from "../auth/user-management-detail";
 import axios from "axios";
 
-export default function UserManagement() {
+const UserManagement = () => {
     const [users, setUsers] = useState([{}]);
 
     useEffect(() => {
         getUserList();
     }, []);
 
-    function getUserList() {
+    const getUserList = () => {
         axios.get(`${process.env.REACT_APP_DOMAIN}/auth/get/all`).then((response) => {
             setUsers(response.data);
         });
-    }
-
-    function handleClick(id) {
-        // todo lol
-    }
+    };
 
     function populateUsers() {
-        return users.map((user) => {
-            return (
-                <div key={user.id} className="user-wrapper">
-                    <div key={`user-id-${user.id}`} className="user-id">{user.id}</div>
-                    <div key={`username-${user.username}`} className="username">{user.username}</div>
-                    <button key={`button-user-${user.id}`} value={user.id} onClick={() => handleClick(user.id)}>Edit</button>
-                </div>
-            );
-        });
+        if (users.length > 0) {
+            return users.map((user) => {
+                return <UserManagementDetail key={user.id} user={user} />
+            });
+        }
     }
 
-    return (<div className="content-wrapper">{populateUsers()}</div>);
-}
+    return <div id="user-management-wrapper">{populateUsers()}</div>;
+};
+
+export default UserManagement;
