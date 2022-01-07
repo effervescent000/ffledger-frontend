@@ -63,9 +63,9 @@ const CraftingWrapper = (props) => {
     };
 
     const renderCrafts = () => {
-        if (crafts.length !== 0) {
-            console.log("Rendering crafts...");
-            return <CraftingItems crafts={crafts.slice(0, numCrafts - 1)} />;
+        if (crafts.length > 0) {
+            console.log("Rendering crafts...", crafts);
+            return <CraftingItems crafts={crafts.slice(0, numCrafts)} />;
         }
         return null;
     };

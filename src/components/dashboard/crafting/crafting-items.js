@@ -3,38 +3,27 @@ import axios from "axios";
 
 import CraftDisplay from "./craft-display";
 
-export default function (props) {
-    const [crafts, setCrafts] = useState([]);
-
-    useEffect(() => {
-        setCrafts(() => {
-            if (crafts.length === 0) {
-                console.log("props.crafts", props.crafts);
-                return props.crafts;
-            } else {
-                return crafts;
-            }
-        });
-    });
+const CraftingItems = (props) => {
+    const [crafts, setCrafts] = useState(props.crafts);
 
     const populateItems = () => {
         return crafts.map((item) => {
             return (
-                <div key={item.id} className="craft-queue-item-wrapper">
+                <div key={item.item_id} className="craft-queue-item-wrapper">
                     <div className="craft-heading-wrapper">
-                        <div className="item-name">{item.name}</div>
-                        <div className="gph">{item.gph} gil/hour</div>
+                        <div className="item-name">{item.item.name}</div>
+                        <div className="gph">{Math.round(((item.price - item.craft_cost) * item.sales_velocity) / 24)} gil/hour</div>
                         <div className="craft-cost">{item.craft_cost} to craft</div>
                     </div>
                     <div className="buttons-wrapper">
-                        <button name="craft-btn" value={item.id} onClick={handleClick}>
+                        <button name="craft-btn" value={item.item_id} onClick={handleClick}>
                             Craft 1
                         </button>
-                        <button name="skip-btn" value={item.id} onClick={handleClick}>
+                        <button name="skip-btn" value={item.item_id} onClick={handleClick}>
                             Skip
                         </button>
                     </div>
-                    <CraftDisplay itemId={item.id} />
+                    <CraftDisplay itemId={item.item_id} />
                 </div>
             );
         });
@@ -102,3 +91,5 @@ export default function (props) {
 
     return <div id="crafting-output-wrapper">{populateItems()}</div>;
 }
+
+export default CraftingItems
