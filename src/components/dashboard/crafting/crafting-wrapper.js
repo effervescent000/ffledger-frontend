@@ -13,18 +13,6 @@ const CraftingWrapper = (props) => {
         event.preventDefault();
         setButtonClicked(true);
 
-        // axios
-        //     .get(`${process.env.REACT_APP_DOMAIN}/craft/get_queue/${numCrafts}`, {
-        //         headers: {
-        //             Authorization: `Bearer ${
-        //                 JSON.parse(localStorage.getItem("user")).access_token
-        //             }`,
-        //         },
-        //     })
-        //     .then((response) => {
-        //         setCrafts(response.data);
-        //     })
-        // .catch((error) => console.log(error));
         getCrafts();
     };
 
@@ -62,10 +50,14 @@ const CraftingWrapper = (props) => {
         setButtonClicked(false);
     };
 
+    const removeCraft = (id) => {
+        setCrafts(crafts.filter(craft => craft.item_id != id))
+    }
+
     const renderCrafts = () => {
         if (crafts.length > 0) {
             console.log("Rendering crafts...", crafts);
-            return <CraftingItems crafts={crafts.slice(0, numCrafts)} />;
+            return <CraftingItems crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
         }
         return null;
     };
