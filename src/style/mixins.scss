@@ -26,6 +26,10 @@
     &:active {
         border: 1px $tertiary-background-color solid;
     }
+    &:disabled {
+        background-color: $secondary-accent-color;
+        text-decoration: line-through;
+    }
 }
 
 @mixin textarea-styling {

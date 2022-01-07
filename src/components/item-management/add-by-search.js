@@ -17,12 +17,14 @@ const AddBySearch = (props) => {
         let processedItems = await axios
             .get(`https://xivapi.com/search?indexes=Item&string=${searchTerm}`)
             .then((response) => {
+                // console.log("search results", response.data)
                 return processResults(response.data.Results);
             })
             .catch((error) => console.log("Error fetching search results from XIVAPI", error));
         // once all the matching results have been processed, change buttonClicked back to false
         // pass the array to setResults
         setButtonClicked(false);
+        console.log(processedItems)
         setResults(processedItems);
     };
 
@@ -37,6 +39,7 @@ const AddBySearch = (props) => {
                 await axios
                     .post(`${process.env.REACT_APP_DOMAIN}/item/add`, { ID: results[i].ID })
                     .then((response) => {
+                        // console.log("item/add return value", response.data)
                         processedItemsArray.push(response.data);
                         return response.data;
                     })
