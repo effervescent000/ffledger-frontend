@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import sortArray from "sort-array";
 
 import CraftingItems from "./crafting-items";
 
@@ -33,8 +34,30 @@ const CraftingWrapper = (props) => {
             .put(`${process.env.REACT_APP_DOMAIN}/craft/stats/update`, {
                 id: props.profile.world.id,
             })
-            .then((response) => console.log("updated items", response.data))
+            // .then((response) => console.log("updated items", response.data))
             .catch((error) => console.log("error updating item stats", error));
+
+        await axios
+            .get(`${process.env.REACT_APP_DOMAIN}/craft/get`, {
+                headers: {
+                    Authorization: `Bearer ${
+                        JSON.parse(localStorage.getItem("user")).access_token
+                    }`,
+                },
+            })
+            .then((response) => {
+                sortArray(response.data, {
+                    by: "gph",
+                    order: "desc",
+                    computed: {
+                        gph: (item) =>
+                            Math.round(((item.price - item.craft_cost) * item.sales_velocity) / 24),
+                    },
+                });
+                console.log("response from get_crafts", response.data);
+                setCrafts(response.data)
+            })
+            .catch((error) => console.log("Error getting crafts", error));
 
         setButtonClicked(false);
     };
@@ -42,7 +65,7 @@ const CraftingWrapper = (props) => {
     const renderCrafts = () => {
         if (crafts.length !== 0) {
             console.log("Rendering crafts...");
-            return <CraftingItems crafts={crafts} />;
+            return <CraftingItems crafts={crafts.slice(0, numCrafts - 1)} />;
         }
         return null;
     };

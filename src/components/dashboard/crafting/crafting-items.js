@@ -17,10 +17,6 @@ export default function (props) {
         });
     });
 
-    const handleSkipButtonClick = (event) => {
-        
-    };
-
     const populateItems = () => {
         return crafts.map((item) => {
             return (
