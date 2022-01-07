@@ -11,6 +11,7 @@ import Signup from "./pages/signup";
 import ManageProfiles from "./pages/manage-profiles";
 import ProfileEdit from "./pages/profile-edit";
 import ProfileCreate from "./pages/profile-create";
+import ItemManagement from "./pages/item-management";
 import { UserContext } from "./user-context";
 
 export default function App(props) {
@@ -122,6 +123,9 @@ export default function App(props) {
                     </Route>
                     <Route path="/profile/new">
                         <ProfileCreate />
+                    </Route>
+                    <Route path="/item-management">
+                        <ItemManagement />
                     </Route>
                     <Route path="/profile/:id">{profileEditRoute()}</Route>
                     {/* TODO add a catch-all route */}
