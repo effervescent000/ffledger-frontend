@@ -18,6 +18,7 @@ export default function () {
             <div id="right-side-header">
                 <div id="admin-wrapper">
                     <NavLink to="/user-management">User Management</NavLink>
+                    <NavLink to="/item-management">Item Management</NavLink>
                 </div>
                 <div id="account-wrapper">
                     <AccountStatus />
