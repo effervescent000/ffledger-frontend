@@ -8,6 +8,7 @@ const CraftingWrapper = (props) => {
     const [numCrafts, setNumCrafts] = useState(1);
     const [crafts, setCrafts] = useState([]);
     const [buttonClicked, setButtonClicked] = useState(false);
+    const [updating, setUpdating] = useState(false);
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -18,13 +19,13 @@ const CraftingWrapper = (props) => {
 
     const getCrafts = async () => {
         setCrafts([]);
+        setUpdating(true);
         await axios
             .put(`${process.env.REACT_APP_DOMAIN}/craft/stats/update`, {
                 id: props.profile.world.id,
             })
-            // .then((response) => console.log("updated items", response.data))
             .catch((error) => console.log("error updating item stats", error));
-
+        setUpdating(false);
         await axios
             .get(`${process.env.REACT_APP_DOMAIN}/craft/get`, {
                 headers: {
@@ -43,7 +44,7 @@ const CraftingWrapper = (props) => {
                     },
                 });
                 console.log("response from get_crafts", response.data);
-                setCrafts(response.data)
+                setCrafts(response.data);
             })
             .catch((error) => console.log("Error getting crafts", error));
 
@@ -51,12 +52,15 @@ const CraftingWrapper = (props) => {
     };
 
     const removeCraft = (id) => {
-        setCrafts(crafts.filter(craft => craft.item_id != id))
-    }
+        setCrafts(crafts.filter((craft) => craft.item_id != id));
+    };
 
     const renderCrafts = () => {
-        if (crafts.length > 0) {
-            console.log("Rendering crafts...", crafts);
+        if (updating && buttonClicked) {
+            return <div>Updating price data...</div>;
+        } else if (crafts.length === 0 && buttonClicked) {
+            return <div>Getting queue...</div>;
+        } else if (crafts.length > 0) {
             return <CraftingItems crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
         }
         return null;
