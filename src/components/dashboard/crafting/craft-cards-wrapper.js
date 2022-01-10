@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 
 import CraftCardDataWrapper from "./craft-card-data-wrapper";
@@ -6,29 +6,33 @@ import CraftCardDataWrapper from "./craft-card-data-wrapper";
 const CraftCardsWrapper = (props) => {
     const populateItems = () => {
         return props.crafts.map((item) => {
-            return (
-                <div key={item.item_id} className="craft-queue-item-wrapper">
-                    <div className="craft-heading-wrapper">
-                        <div className="item-name">{item.item.name}</div>
-                        <div className="gph">
-                            {Math.round(
-                                ((item.price - item.craft_cost) * item.sales_velocity) / 24
-                            )}{" "}
-                            gil/hour
+            if (
+                props.classicalDisplay === "SHOWN" ||
+                (props.classicalDisplay === "HIDDEN" && !item.item.name.startsWith("Classical"))
+            )
+                return (
+                    <div key={item.item_id} className="craft-queue-item-wrapper">
+                        <div className="craft-heading-wrapper">
+                            <div className="item-name">{item.item.name}</div>
+                            <div className="gph">
+                                {Math.round(
+                                    ((item.price - item.craft_cost) * item.sales_velocity) / 24
+                                )}{" "}
+                                gil/hour
+                            </div>
+                            <div className="craft-cost">{item.craft_cost} to craft</div>
                         </div>
-                        <div className="craft-cost">{item.craft_cost} to craft</div>
+                        <div className="buttons-wrapper">
+                            <button name="craft-btn" value={item.item_id} onClick={handleClick}>
+                                Craft 1
+                            </button>
+                            <button name="skip-btn" value={item.item_id} onClick={handleClick}>
+                                Skip
+                            </button>
+                        </div>
+                        <CraftCardDataWrapper itemId={item.item_id} />
                     </div>
-                    <div className="buttons-wrapper">
-                        <button name="craft-btn" value={item.item_id} onClick={handleClick}>
-                            Craft 1
-                        </button>
-                        <button name="skip-btn" value={item.item_id} onClick={handleClick}>
-                            Skip
-                        </button>
-                    </div>
-                    <CraftCardDataWrapper itemId={item.item_id} />
-                </div>
-            );
+                );
         });
     };
 

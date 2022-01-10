@@ -9,7 +9,7 @@ const CraftingWrapper = (props) => {
     const [crafts, setCrafts] = useState([]);
     const [getCraftsButtonClicked, setGetCraftsButtonClicked] = useState(false);
     const [updating, setUpdating] = useState(false);
-    const [classicalToggle, setClassicalToggle] = useState("SHOWN");
+    const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -17,7 +17,7 @@ const CraftingWrapper = (props) => {
             setGetCraftsButtonClicked(true);
             getCrafts();
         } else if (event.target.name === "toggle-classical-btn") {
-            setClassicalToggle(classicalToggle === "SHOWN" ? "HIDDEN" : "SHOWN");
+            setClassicalDisplay(classicalDisplay === "SHOWN" ? "HIDDEN" : "SHOWN");
         }
     };
 
@@ -65,7 +65,13 @@ const CraftingWrapper = (props) => {
         } else if (crafts.length === 0 && getCraftsButtonClicked) {
             return <div>Getting queue...</div>;
         } else if (crafts.length > 0) {
-            return <CraftCardsWrapper crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
+            return (
+                <CraftCardsWrapper
+                    crafts={crafts.slice(0, numCrafts)}
+                    removeCraft={removeCraft}
+                    classicalDisplay={classicalDisplay}
+                />
+            );
         }
         return null;
     };
