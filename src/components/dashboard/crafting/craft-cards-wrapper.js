@@ -5,12 +5,15 @@ import CraftCardDataWrapper from "./craft-card-data-wrapper";
 
 const CraftCardsWrapper = (props) => {
     const populateItems = () => {
-        return props.crafts.map((item) => {
+        const renderedCrafts = [];
+        let i = 0;
+        while (renderedCrafts.length < props.numCrafts && i < props.crafts.length) {
+            const item = props.crafts[i];
             if (
                 props.classicalDisplay === "SHOWN" ||
                 (props.classicalDisplay === "HIDDEN" && !item.item.name.startsWith("Classical"))
-            )
-                return (
+            ) {
+                renderedCrafts.push(
                     <div key={item.item_id} className="craft-queue-item-wrapper">
                         <div className="craft-heading-wrapper">
                             <div className="item-name">{item.item.name}</div>
@@ -33,7 +36,11 @@ const CraftCardsWrapper = (props) => {
                         <CraftCardDataWrapper itemId={item.item_id} />
                     </div>
                 );
-        });
+            }
+
+            i++;
+        }
+        return renderedCrafts;
     };
 
     const handleClick = (event) => {

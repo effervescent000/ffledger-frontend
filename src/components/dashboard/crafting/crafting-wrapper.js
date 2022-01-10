@@ -67,7 +67,8 @@ const CraftingWrapper = (props) => {
         } else if (crafts.length > 0) {
             return (
                 <CraftCardsWrapper
-                    crafts={crafts.slice(0, numCrafts)}
+                    crafts={crafts}
+                    numCrafts={numCrafts}
                     removeCraft={removeCraft}
                     classicalDisplay={classicalDisplay}
                 />
