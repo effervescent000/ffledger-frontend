@@ -7,14 +7,18 @@ import CraftCardsWrapper from "./craft-cards-wrapper";
 const CraftingWrapper = (props) => {
     const [numCrafts, setNumCrafts] = useState(1);
     const [crafts, setCrafts] = useState([]);
-    const [buttonClicked, setButtonClicked] = useState(false);
+    const [getCraftsButtonClicked, setGetCraftsButtonClicked] = useState(false);
     const [updating, setUpdating] = useState(false);
+    const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
 
     const handleClick = (event) => {
         event.preventDefault();
-        setButtonClicked(true);
-
-        getCrafts();
+        if (event.target.name === "get-crafts-btn") {
+            setGetCraftsButtonClicked(true);
+            getCrafts();
+        } else if (event.target.name === "toggle-classical-btn") {
+            setClassicalDisplay(classicalDisplay === "SHOWN" ? "HIDDEN" : "SHOWN");
+        }
     };
 
     const getCrafts = async () => {
@@ -48,7 +52,7 @@ const CraftingWrapper = (props) => {
             })
             .catch((error) => console.log("Error getting crafts", error));
 
-        setButtonClicked(false);
+        setGetCraftsButtonClicked(false);
     };
 
     const removeCraft = (id) => {
@@ -56,12 +60,19 @@ const CraftingWrapper = (props) => {
     };
 
     const renderCrafts = () => {
-        if (updating && buttonClicked) {
+        if (updating && getCraftsButtonClicked) {
             return <div>Updating price data...</div>;
-        } else if (crafts.length === 0 && buttonClicked) {
+        } else if (crafts.length === 0 && getCraftsButtonClicked) {
             return <div>Getting queue...</div>;
         } else if (crafts.length > 0) {
-            return <CraftCardsWrapper crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
+            return (
+                <CraftCardsWrapper
+                    crafts={crafts}
+                    numCrafts={numCrafts}
+                    removeCraft={removeCraft}
+                    classicalDisplay={classicalDisplay}
+                />
+            );
         }
         return null;
     };
@@ -86,8 +97,15 @@ const CraftingWrapper = (props) => {
                     <option value="5">5</option>
                     <option value="10">10</option>
                 </select>
-                <button disabled={buttonClicked} onClick={handleClick}>
+                <button
+                    name="get-crafts-btn"
+                    disabled={getCraftsButtonClicked}
+                    onClick={handleClick}
+                >
                     Generate queue
+                </button>
+                <button name="toggle-classical-btn" onClick={handleClick}>
+                    Toggle Classical items
                 </button>
             </div>
             {renderCrafts()}
