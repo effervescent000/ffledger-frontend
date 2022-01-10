@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import CraftDisplay from "./craft-display";
+import CraftCardDataWrapper from "./craft-card-data-wrapper";
 
-const CraftingItems = (props) => {
-    // const [crafts, setCrafts] = useState(props.crafts);
-
+const CraftCardsWrapper = (props) => {
     const populateItems = () => {
         return props.crafts.map((item) => {
             return (
@@ -28,7 +26,7 @@ const CraftingItems = (props) => {
                             Skip
                         </button>
                     </div>
-                    <CraftDisplay itemId={item.item_id} />
+                    <CraftCardDataWrapper itemId={item.item_id} />
                 </div>
             );
         });
@@ -63,19 +61,6 @@ const CraftingItems = (props) => {
         }
     };
 
-    // const removeItemFromCrafts = (itemId) => {
-    //     setCrafts((crafts) => {
-    //         const newCrafts = [];
-    //         crafts.forEach((item) => {
-    //             console.log(item);
-    //             if (item.id != itemId) {
-    //                 newCrafts.push(item);
-    //             }
-    //         });
-    //         return newCrafts;
-    //     });
-    // };
-
     const postTransaction = (selectedItem, amount, gilValue) => {
         if (selectedItem != undefined && amount != undefined && gilValue != undefined) {
             const transaction = {
@@ -96,4 +81,4 @@ const CraftingItems = (props) => {
     return <div id="crafting-output-wrapper">{populateItems()}</div>;
 };
 
-export default CraftingItems;
+export default CraftCardsWrapper;
