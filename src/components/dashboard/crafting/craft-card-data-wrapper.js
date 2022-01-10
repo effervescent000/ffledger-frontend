@@ -33,16 +33,24 @@ const CraftCardDataWrapper = (props) => {
     }
 
     function populateCardItems() {
-        
-
         return cardData.map((itemData) => {
             return (
                 <div key={`${props.itemId}-${itemData.name}`} className="craft-data">
                     <div className="item-name">{itemData.name}</div>
-                    <div className={`craft-cost${itemData.crafting_cost < itemData.price ? " cheaper" : ""}`}>
+                    <div
+                        className={`craft-cost${
+                            itemData.crafting_cost < itemData.price ? " cheaper" : ""
+                        }`}
+                    >
                         {itemData.crafting_cost}
                     </div>
-                    <div className={`item-price${itemData.crafting_cost >= itemData.price ? " cheaper" : ""}`}>{itemData.price}</div>
+                    <div
+                        className={`item-price${
+                            itemData.crafting_cost >= itemData.price ? " cheaper" : ""
+                        }`}
+                    >
+                        {itemData.price}
+                    </div>
                 </div>
             );
         });
