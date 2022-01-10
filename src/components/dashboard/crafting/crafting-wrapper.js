@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
 
-import CraftingItems from "./crafting-items";
+import CraftCardsWrapper from "./craft-cards-wrapper";
 
 const CraftingWrapper = (props) => {
     const [numCrafts, setNumCrafts] = useState(1);
@@ -61,7 +61,7 @@ const CraftingWrapper = (props) => {
         } else if (crafts.length === 0 && buttonClicked) {
             return <div>Getting queue...</div>;
         } else if (crafts.length > 0) {
-            return <CraftingItems crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
+            return <CraftCardsWrapper crafts={crafts.slice(0, numCrafts)} removeCraft={removeCraft} />;
         }
         return null;
     };

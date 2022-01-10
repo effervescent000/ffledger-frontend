@@ -31,17 +31,20 @@
                     grid-template-columns: 4fr 1fr;
                     border: 1px solid $secondary-accent-color;
                     .craft-heading-wrapper {
-                        display: grid;
-                        grid-template-columns: 2fr 1fr 1fr;
+                        @include crafting-card-grid;
                     }
                     .craft-block-display {
                         font-size: 14px;
                         padding-left: 30px;
-                        .warnings-wrapper {
-                            // width: 75%;
-                            .warning {
-                                display: grid;
-                                grid-template-columns: 2fr 1fr 1fr;
+                        .card-data-wrapper {
+                            .craft-data-header {
+                                @include crafting-card-grid;
+                            }
+                            .craft-data {
+                                @include crafting-card-grid;
+                            }
+                            .cheaper {
+                                color: $green;
                             }
                         }
                     }
