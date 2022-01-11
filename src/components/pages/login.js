@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { UserContext } from "../user-context";
 
-export default function Login() {
+const Login = () => {
     const userContext = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -57,3 +57,5 @@ export default function Login() {
         </div>
     );
 }
+
+export default Login;

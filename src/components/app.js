@@ -38,47 +38,33 @@ export default function App(props) {
                 //     .catch((error) => {
                 //         console.log(error);
                 //     });
-                axios
-                    .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-                        headers: {
-                            Authorization: `Bearer ${
-                                JSON.parse(localStorage.getItem("user")).access_token
-                            }`,
-                        },
-                    })
-                    .then((response) => {
-                        if (response.data) {
-                            setProfile(response.data);
-                        }
-                    })
-                    .catch((error) => console.log(error));
+                getActiveProfile()
             }
+        } else {
+            getActiveProfile()
         }
     });
 
-    // const getActiveProfile = async () => {
-    //     if (loggedIn) {
-    //         let activeProfile = {};
-    //         let response = await axios
-    //             .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${
-    //                         JSON.parse(localStorage.getItem("user")).access_token
-    //                     }`,
-    //                 },
-    //             })
-    //             .then((response) => {
-    //                 if (response.data) {
-    //                     // activeProfile = response.data
-    //                     return response.data;
-    //                 }
-    //             })
-    //             .catch((error) => console.log(error));
-    //         console.log(response.resolve());
-    //     }
-    // };
+    const getActiveProfile = async () => {
+        if (loggedIn) {
+            axios
+                .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
+                    headers: {
+                        Authorization: `Bearer ${
+                            JSON.parse(localStorage.getItem("user")).access_token
+                        }`,
+                    },
+                })
+                .then((response) => {
+                    if (response.data) {
+                        setProfile(response.data)
+                    }
+                })
+                .catch((error) => console.log(error));
+        }
+    };
 
-    const toggleLogIn = () => {
+    const toggleLogIn = async () => {
         if (loggedIn) {
             setLoggedIn(false);
         } else {
@@ -100,7 +86,7 @@ export default function App(props) {
 
     return (
         <Router>
-            <UserContext.Provider value={{ loggedIn: loggedIn, toggleLogIn: toggleLogIn, profile: profile, setProfile: setProfile }}>
+            <UserContext.Provider value={{ loggedIn, toggleLogIn, profile, setProfile }}>
                 <div className="app">
                     <Header />
                 </div>

@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 import { UserContext } from "../user-context";
 
-export default function () {
+const LoggedInHeader = () => {
     const userContext = useContext(UserContext);
 
     const handleClick = event => {
         event.preventDefault();
-        if (userContext.loggedIn === true) {
+        if (userContext.loggedIn) {
             userContext.toggleLogIn()
+            userContext.setProfile({})
             localStorage.clear()
         }
     }
@@ -26,3 +27,5 @@ export default function () {
         </div>
     );
 }
+
+export default LoggedInHeader;
