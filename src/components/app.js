@@ -17,6 +17,7 @@ import { UserContext } from "./user-context";
 export default function App(props) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [profile, setProfile] = useState({});
+    const [user, setUser] = useState({});
     // const {profile, setProfile} = useContext(UserContext);
 
     useEffect(() => {
@@ -57,7 +58,11 @@ export default function App(props) {
                 })
                 .then((response) => {
                     if (response.data) {
-                        setProfile(response.data)
+                        if (Object.keys(response.data).length===0) {
+                            setProfile(null)
+                        } else {
+                            setProfile(response.data)
+                        }
                     }
                 })
                 .catch((error) => console.log(error));
@@ -73,13 +78,13 @@ export default function App(props) {
     };
 
     const dashboardRoute = () => {
-        if (Object.keys(profile).length > 0) {
+        if (profile && Object.keys(profile).length > 0) {
             return <Dashboard profile={profile} />;
         }
     };
 
     const profileEditRoute = () => {
-        if (Object.keys(profile).length > 0) {
+        if (profile && Object.keys(profile).length > 0) {
             return <ProfileEdit profile={profile} setProfile={setProfile} />;
         }
     };

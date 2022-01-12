@@ -3,11 +3,12 @@ import axios from "axios";
 
 import { UserContext } from "../user-context";
 
-export default function Signup() {
+const Signup = () => {
     const userContext = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("")
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -17,7 +18,7 @@ export default function Signup() {
                 password: password,
             };
             axios
-                .post(`${process.env.REACT_APP_DOMAIN}/auth/signup`, { user })
+                .post(`${process.env.REACT_APP_DOMAIN}/auth/signup`, user)
                 .then((response) => {
                     localStorage.setItem("user", JSON.stringify(response.data[0]));
                     if (!userContext.loggedIn) {
@@ -69,3 +70,5 @@ export default function Signup() {
         </div>
     );
 }
+
+export default Signup;
