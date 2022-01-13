@@ -69,10 +69,10 @@ const App = () => {
 
     const adminRoutes = () => {
         return [
-            <Route path="/user-management">
+            <Route key="user-management" path="/user-management">
                 <UserManagement />
             </Route>,
-            <Route path="/item-management">
+            <Route key="item-management" path="/item-management">
                 <ItemManagement />
             </Route>,
         ];

@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
-import CraftCardDataItem from "./craft-card-data-item";
+import { UserContext } from "../../user-context";
 
 const CraftCardDataWrapper = (props) => {
     const [display, setDisplay] = useState("none");
     const [cardData, setCardData] = useState([]);
+    const { profile } = useContext(UserContext);
 
     useEffect(() => {
         setDisplay("block");
         getCardData(props.itemId);
     }, []);
 
-    async function getCardData(id) {
-        const worldId = await getActiveProfileWorld();
+    const getCardData = (id) => {
+        const worldId = profile.world.id;
 
         axios
             .get(`${process.env.REACT_APP_DOMAIN}/craft/card/${worldId}-${id}`)
@@ -21,16 +22,7 @@ const CraftCardDataWrapper = (props) => {
                 setCardData(response.data);
             })
             .catch((error) => console.log(error));
-    }
-
-    async function getActiveProfileWorld() {
-        let response = await axios.get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-            headers: {
-                Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).access_token}`,
-            },
-        });
-        return response.data.world.id;
-    }
+    };
 
     function populateCardItems() {
         return cardData.map((itemData) => {
