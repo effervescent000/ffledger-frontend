@@ -41,7 +41,7 @@ const LoggedInHeader = () => {
 
     return (
         <div id="logged-in">
-            <div id="greeting">Hi uhhh username!</div>
+            <div id="greeting">Hi {userContext.user.username}</div>
             <div id="manage-profiles-wrapper">
                 <Link to="/profiles/manage">Manage profiles</Link>
             </div>

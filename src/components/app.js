@@ -67,6 +67,17 @@ const App = () => {
         }
     };
 
+    const adminRoutes = () => {
+        return [
+            <Route path="/user-management">
+                <UserManagement />
+            </Route>,
+            <Route path="/item-management">
+                <ItemManagement />
+            </Route>,
+        ];
+    };
+
     return (
         <Router>
             <UserContext.Provider
@@ -82,9 +93,6 @@ const App = () => {
                     <Route path="/ledger">
                         <Ledger />
                     </Route>
-                    <Route path="/user-management">
-                        <UserManagement />
-                    </Route>
                     <Route path="/login">
                         <Login />
                     </Route>
@@ -97,9 +105,9 @@ const App = () => {
                     <Route path="/profile/new">
                         <ProfileCreate />
                     </Route>
-                    <Route path="/item-management">
-                        <ItemManagement />
-                    </Route>
+                    {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
+                        ? adminRoutes()
+                        : null}
                     <Route path="/profile/:id">{profileEditRoute()}</Route>
                     {/* TODO add a catch-all route */}
                 </Switch>
