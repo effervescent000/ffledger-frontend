@@ -15,20 +15,20 @@ import ProfileCreate from "./pages/profile-create";
 import ItemManagement from "./pages/item-management";
 import { UserContext } from "./user-context";
 
-export default function App(props) {
+const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [profile, setProfile] = useState({});
     const [user, setUser] = useState({});
-    // const {profile, setProfile} = useContext(UserContext);
 
     useEffect(() => {
         if (!loggedIn) {
-            // pass cookies to a get-user-from-cookies endpoint
-            // this endpoint should return a user object if the jwt is valid, or (an empty object?) if not
             axios
-                .get(`${process.env.REACT_APP_DOMAIN}/auth/check`, { withCredentials: true })
+                .get(`${process.env.REACT_APP_DOMAIN}/auth/check`, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
                 .then((response) => {
-                    console.log(response);
+                    console.log("auth/check response", response);
                     if (Object.keys(response.data).length > 0) {
                         toggleLogIn();
                         setUser(response.data);
@@ -47,30 +47,7 @@ export default function App(props) {
         }
     });
 
-    const getActiveProfile = async () => {
-        if (loggedIn) {
-            axios
-                .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-                    headers: {
-                        Authorization: `Bearer ${
-                            JSON.parse(localStorage.getItem("user")).access_token
-                        }`,
-                    },
-                })
-                .then((response) => {
-                    if (response.data) {
-                        if (Object.keys(response.data).length === 0) {
-                            setProfile(null);
-                        } else {
-                            setProfile(response.data);
-                        }
-                    }
-                })
-                .catch((error) => console.log(error));
-        }
-    };
-
-    const toggleLogIn = async () => {
+    const toggleLogIn = () => {
         if (loggedIn) {
             setLoggedIn(false);
         } else {
@@ -129,4 +106,6 @@ export default function App(props) {
             </UserContext.Provider>
         </Router>
     );
-}
+};
+
+export default App;
