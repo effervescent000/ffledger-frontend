@@ -21,6 +21,7 @@ const Login = () => {
                 console.log(response);
                 if (!userContext.loggedIn) {
                     userContext.toggleLogIn();
+                    userContext.setUser(response.data)
                 }
             })
             .catch((error) => console.log(error));
