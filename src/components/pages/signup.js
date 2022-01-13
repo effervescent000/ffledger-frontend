@@ -8,7 +8,7 @@ const Signup = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -18,9 +18,10 @@ const Signup = () => {
                 password: password,
             };
             axios
-                .post(`${process.env.REACT_APP_DOMAIN}/auth/signup`, user)
+                .post(`${process.env.REACT_APP_DOMAIN}/auth/signup`, user, {
+                    withCredentials: true,
+                })
                 .then((response) => {
-                    localStorage.setItem("user", JSON.stringify(response.data[0]));
                     if (!userContext.loggedIn) {
                         userContext.toggleLogIn();
                     }
@@ -69,6 +70,6 @@ const Signup = () => {
             </form>
         </div>
     );
-}
+};
 
 export default Signup;

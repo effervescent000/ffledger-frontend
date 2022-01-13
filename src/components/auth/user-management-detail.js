@@ -3,7 +3,7 @@ import axios from "axios";
 
 const UserManagementDetail = (props) => {
     const { id, username } = props.user;
-    const [role, setRole] = useState(props.user.role);
+    const [role, setRole] = useState(props.user.roles ? props.user.roles : "");
 
     const handleChange = (event) => {
         setRole(event.target.value);
@@ -22,7 +22,7 @@ const UserManagementDetail = (props) => {
     };
 
     return (
-        <div className="user-wrapper">
+        <div key={id} className="user-wrapper">
             <div className="user-id">{id}</div>
             <div className="username">{username}</div>
             <div className="user-role">

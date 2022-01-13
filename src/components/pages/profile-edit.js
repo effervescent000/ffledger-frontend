@@ -1,8 +1,9 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-export default function(props) {
-    console.log("props", props)
+export default function (props) {
+    console.log("props", props);
     const [alcLevel, setAlcLevel] = useState(props.profile.alc_level);
     const [armLevel, setArmLevel] = useState(props.profile.arm_level);
     const [bsmLevel, setBsmLevel] = useState(props.profile.bsm_level);
@@ -45,17 +46,18 @@ export default function(props) {
                 newProfile.wvr_level = wvrLevel;
             }
             if (retainers.length > 0) {
-                newProfile.retainers = retainers
+                newProfile.retainers = retainers;
             }
 
             axios
-                .put(`${process.env.REACT_APP_DOMAIN}/profile/update/${props.profile.id}`, newProfile, {
-                    headers: {
-                        Authorization: `Bearer ${
-                            JSON.parse(localStorage.getItem("user")).access_token
-                        }`,
-                    },
-                })
+                .put(
+                    `${process.env.REACT_APP_DOMAIN}/profile/update/${props.profile.id}`,
+                    newProfile,
+                    {
+                        withCredentials: true,
+                        headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                    }
+                )
                 .then((response) => {
                     props.setProfile(response.data);
                 });

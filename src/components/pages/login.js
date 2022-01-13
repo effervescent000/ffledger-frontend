@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 import { UserContext } from "../user-context";
@@ -15,9 +16,9 @@ const Login = () => {
             password: password,
         };
         axios
-            .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, { user })
+            .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, user, { withCredentials: true })
             .then((response) => {
-                localStorage.setItem("user", JSON.stringify(response.data[0]));
+                console.log(response);
                 if (!userContext.loggedIn) {
                     userContext.toggleLogIn();
                 }
@@ -56,6 +57,6 @@ const Login = () => {
             </form>
         </div>
     );
-}
+};
 
 export default Login;

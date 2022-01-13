@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import Header from "./header";
 import Dashboard from "./pages/dashboard";
@@ -22,27 +23,27 @@ export default function App(props) {
 
     useEffect(() => {
         if (!loggedIn) {
-            let loggedInUser = JSON.parse(localStorage.getItem("user"));
-            if (loggedInUser) {
-                loggedInUser = loggedInUser.access_token;
-                toggleLogIn();
-                // assume that the token needs to be refreshed
-                // I am turning this off until I can get it to stop throwing an error all the time
-                // axios
-                //     .post(`${process.env.REACT_APP_DOMAIN}/auth/refresh`, { loggedInUser })
-                //     .then((response) => {
-                //         // console.log(response);
-                //         if (response.data) {
-                //             localStorage.setItem("user", JSON.stringify(response.data));
-                //         }
-                //     })
-                //     .catch((error) => {
-                //         console.log(error);
-                //     });
-                getActiveProfile()
-            }
+            // pass cookies to a get-user-from-cookies endpoint
+            // this endpoint should return a user object if the jwt is valid, or (an empty object?) if not
+            axios
+                .get(`${process.env.REACT_APP_DOMAIN}/auth/check`, { withCredentials: true })
+                .then((response) => {
+                    console.log(response);
+                    if (Object.keys(response.data).length > 0) {
+                        toggleLogIn();
+                        setUser(response.data);
+                    }
+                })
+                .catch((error) => console.log("Error loading user", error));
         } else {
-            getActiveProfile()
+            if (Object.keys(user).length > 0 && Object.keys(profile).length === 0) {
+                for (let each_profile of user.profiles) {
+                    if (each_profile.is_active) {
+                        setProfile(each_profile);
+                        break;
+                    }
+                }
+            }
         }
     });
 
@@ -58,10 +59,10 @@ export default function App(props) {
                 })
                 .then((response) => {
                     if (response.data) {
-                        if (Object.keys(response.data).length===0) {
-                            setProfile(null)
+                        if (Object.keys(response.data).length === 0) {
+                            setProfile(null);
                         } else {
-                            setProfile(response.data)
+                            setProfile(response.data);
                         }
                     }
                 })
@@ -91,7 +92,9 @@ export default function App(props) {
 
     return (
         <Router>
-            <UserContext.Provider value={{ loggedIn, toggleLogIn, profile, setProfile }}>
+            <UserContext.Provider
+                value={{ loggedIn, toggleLogIn, profile, setProfile, user, setUser }}
+            >
                 <div className="app">
                     <Header />
                 </div>

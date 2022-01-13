@@ -4,5 +4,7 @@ export const UserContext = React.createContext({
     loggedIn: false,
     toggleLogIn: () => {},
     profile: {},
-    setProfile: () => {}
+    setProfile: () => {},
+    user: {},
+    setUser: () => {},
 });

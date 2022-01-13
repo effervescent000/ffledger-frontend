@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function ProfileCreate() {
     const [worlds, setWorlds] = useState([]);
-    const [profile, setProfile] = useState({});
     useEffect(() => {
         getWorlds();
     }, []);
 
-    function handleClick() {
+    const handleClick = () => {
         const newProfile = { world: document.getElementById("world-select").value };
 
         const alcLevel = document.getElementById("alc-level-input").value;
@@ -47,17 +47,14 @@ export default function ProfileCreate() {
 
         axios
             .post(`${process.env.REACT_APP_DOMAIN}/profile/add`, newProfile, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
-                setProfile(response.data);
+                console.log(response);
             })
             .catch((error) => console.log(error));
-    }
+    };
 
     return (
         <div className="content-wrapper">

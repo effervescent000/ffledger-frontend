@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { isEqual } from "lodash";
 import axios from "axios";
+import Cookies from "js-cookie";
 import sortArray from "sort-array";
 
 import { UserContext } from "../user-context";
@@ -22,15 +23,10 @@ export default function StockFrame() {
     const getStock = () => {
         axios
             .get(`${process.env.REACT_APP_DOMAIN}/item/stock`, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
-                // console.log("stock state", stock);
-                // console.log("response data", response.data);
                 const sortedData = sortArray(response.data, {
                     by: "name",
                     computed: {
@@ -60,15 +56,14 @@ export default function StockFrame() {
                 amount: amount,
                 gil_value: gilValue,
             };
-            axios.post(`${process.env.REACT_APP_DOMAIN}/transaction/add`, transaction, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
-            }).then(() => {
-                getStock()
-            })
+            axios
+                .post(`${process.env.REACT_APP_DOMAIN}/transaction/add`, transaction, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
+                .then(() => {
+                    getStock();
+                });
         }
     };
 

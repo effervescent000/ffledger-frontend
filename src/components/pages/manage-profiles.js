@@ -23,13 +23,7 @@ export default function ManageProfiles() {
 
     function getProfiles() {
         axios
-            .get(`${process.env.REACT_APP_DOMAIN}/profile/get/all`, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
-            })
+            .get(`${process.env.REACT_APP_DOMAIN}/profile/get/all`, { withCredentials: true })
             .then((response) => {
                 setProfiles(response.data);
             })
