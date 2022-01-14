@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function ProfileCreate() {
+import { UserContext } from "../user-context";
+
+const ProfileCreate = () => {
     const [worlds, setWorlds] = useState([]);
+    const {setProfile} = useContext(UserContext)
+
     useEffect(() => {
         getWorlds();
     }, []);
@@ -51,7 +55,9 @@ export default function ProfileCreate() {
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
-                console.log(response);
+                if (response.data.is_active) {
+                    setProfile(response.data)
+                }
             })
             .catch((error) => console.log(error.response));
     };
@@ -105,3 +111,5 @@ export default function ProfileCreate() {
         });
     }
 }
+
+export default ProfileCreate

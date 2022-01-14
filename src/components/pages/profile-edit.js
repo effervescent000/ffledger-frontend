@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function (props) {
-    console.log("props", props);
+const ProfileEdit = (props) => {
     const [alcLevel, setAlcLevel] = useState(props.profile.alc_level);
     const [armLevel, setArmLevel] = useState(props.profile.arm_level);
     const [bsmLevel, setBsmLevel] = useState(props.profile.bsm_level);
@@ -208,4 +207,6 @@ export default function (props) {
             </button>
         </div>
     );
-}
+};
+
+export default ProfileEdit;

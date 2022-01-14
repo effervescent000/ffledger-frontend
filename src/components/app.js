@@ -29,7 +29,6 @@ const App = () => {
                     headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
                 })
                 .then((response) => {
-                    console.log("auth/check response", response);
                     if (Object.keys(response.data).length > 0) {
                         toggleLogIn();
                         setUser(response.data);
