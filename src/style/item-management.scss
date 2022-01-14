@@ -1,0 +1,17 @@
+#item-management-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    #prune-items-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        .btn {
+            justify-self: center;
+        }
+        .item-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            justify-items: center;
+        }
+    }
+}
