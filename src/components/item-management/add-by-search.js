@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddBySearch = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,22 +25,24 @@ const AddBySearch = (props) => {
         // once all the matching results have been processed, change buttonClicked back to false
         // pass the array to setResults
         setButtonClicked(false);
-        console.log(processedItems)
+        console.log(processedItems);
         setResults(processedItems);
     };
 
     const processResults = async (results) => {
-        // make a new array for the results of the item processing
         const processedItemsArray = [];
-        // iterate through search results
-        // for each search result that starts with the given string, send a POST request to the backend to the "add a single item" endpoint
-        // (do not do a GET check first b/c the POST endpoint will check to make sure it doesn't add duplicates and that would just be doubling up API calls)
         for (let i = 0; i < results.length; i++) {
             if (results[i].Name.startsWith(searchTerm)) {
                 await axios
-                    .post(`${process.env.REACT_APP_DOMAIN}/item/add`, { ID: results[i].ID })
+                    .post(
+                        `${process.env.REACT_APP_DOMAIN}/item/add`,
+                        { ID: results[i].ID },
+                        {
+                            withCredentials: true,
+                            headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                        }
+                    )
                     .then((response) => {
-                        // console.log("item/add return value", response.data)
                         processedItemsArray.push(response.data);
                         return response.data;
                     })
@@ -47,8 +50,6 @@ const AddBySearch = (props) => {
             }
         }
         return processedItemsArray;
-
-        // add each returned item to the above array
     };
 
     const renderResult = () => {

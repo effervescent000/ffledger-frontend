@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const UserManagementDetail = (props) => {
     const { id, username } = props.user;
@@ -16,7 +17,10 @@ const UserManagementDetail = (props) => {
             role: role,
         };
         axios
-            .put(`${process.env.REACT_APP_DOMAIN}/auth/update`, userData)
+            .put(`${process.env.REACT_APP_DOMAIN}/auth/update`, userData, {
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+            })
             .then((response) => console.log(response))
             .catch((error) => console.log("Error updating user", error));
     };
