@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import UserManagementDetail from "../auth/user-management-detail";
 import axios from "axios";
+import Cookies from "js-cookie";
+
+import UserManagementDetail from "../auth/user-management-detail";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([{}]);
@@ -10,15 +12,20 @@ const UserManagement = () => {
     }, []);
 
     const getUserList = () => {
-        axios.get(`${process.env.REACT_APP_DOMAIN}/auth/get/all`).then((response) => {
-            setUsers(response.data);
-        });
+        axios
+            .get(`${process.env.REACT_APP_DOMAIN}/auth/get/all`, {
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+            })
+            .then((response) => {
+                setUsers(response.data);
+            });
     };
 
     function populateUsers() {
         if (users.length > 0) {
             return users.map((user) => {
-                return <UserManagementDetail key={user.id} user={user} />
+                return <UserManagementDetail key={user.id} user={user} />;
             });
         }
     }
