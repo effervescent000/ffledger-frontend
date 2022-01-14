@@ -4,7 +4,7 @@ import axios from "axios";
 import { UserContext } from "../user-context";
 
 const Signup = () => {
-    const userContext = useContext(UserContext);
+    const { loggedIn, toggleLogIn } = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,11 +22,13 @@ const Signup = () => {
                     withCredentials: true,
                 })
                 .then((response) => {
-                    if (!userContext.loggedIn) {
-                        userContext.toggleLogIn();
+                    if (!loggedIn) {
+                        toggleLogIn();
                     }
                 })
                 .catch((error) => console.log(error));
+        } else {
+            setErrorMessage("Passwords don't match");
         }
     };
 
@@ -38,6 +40,7 @@ const Signup = () => {
         } else if (event.target.name === "confirm-password") {
             setConfirmPassword(event.target.value);
         }
+        setErrorMessage("");
     };
 
     return (
@@ -64,10 +67,9 @@ const Signup = () => {
                     value={confirmPassword}
                     onChange={handleChange}
                 />
-                <button type="submit" onClick={handleClick}>
-                    Sign up
-                </button>
+                <button onClick={handleClick}>Sign up</button>
             </form>
+            {errorMessage}
         </div>
     );
 };
