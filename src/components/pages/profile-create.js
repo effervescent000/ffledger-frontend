@@ -20,28 +20,28 @@ export default function ProfileCreate() {
         const ltwLevel = document.getElementById("ltw-level-input").value;
         const wvrLevel = document.getElementById("wvr-level-input").value;
 
-        if (alcLevel != "") {
+        if (alcLevel !== "") {
             newProfile.alc_level = alcLevel;
         }
-        if (armLevel != "") {
+        if (armLevel !== "") {
             newProfile.arm_level = armLevel;
         }
-        if (bsmLevel != "") {
+        if (bsmLevel !== "") {
             newProfile.bsm_level = bsmLevel;
         }
-        if (crpLevel != "") {
+        if (crpLevel !== "") {
             newProfile.crp_level = crpLevel;
         }
-        if (culLevel != "") {
+        if (culLevel !== "") {
             newProfile.cul_level = culLevel;
         }
-        if (gsmLevel != "") {
+        if (gsmLevel !== "") {
             newProfile.gsm_level = gsmLevel;
         }
-        if (ltwLevel != "") {
+        if (ltwLevel !== "") {
             newProfile.ltw_level = ltwLevel;
         }
-        if (wvrLevel != "") {
+        if (wvrLevel !== "") {
             newProfile.wvr_level = wvrLevel;
         }
 
@@ -53,7 +53,7 @@ export default function ProfileCreate() {
             .then((response) => {
                 console.log(response);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.log(error.response));
     };
 
     return (
