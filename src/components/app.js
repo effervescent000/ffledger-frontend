@@ -55,12 +55,6 @@ const App = () => {
         }
     };
 
-    const dashboardRoute = () => {
-        if (profile && Object.keys(profile).length > 0) {
-            return <Dashboard profile={profile} />;
-        }
-    };
-
     const profileEditRoute = () => {
         if (profile && Object.keys(profile).length > 0) {
             return <ProfileEdit profile={profile} setProfile={setProfile} />;
@@ -85,34 +79,36 @@ const App = () => {
             >
                 <div className="app">
                     <Header />
+                    <div id="page-wrapper">
+                        <Switch>
+                            <Route exact path="/">
+                                <Dashboard />
+                            </Route>
+                            <Route path="/ledger">
+                                <Ledger />
+                            </Route>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/signup">
+                                <Signup />
+                            </Route>
+                            <Route path="/profiles/manage">
+                                <ManageProfiles />
+                            </Route>
+                            <Route path="/profile/new">
+                                <ProfileCreate />
+                            </Route>
+                            {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
+                                ? adminRoutes()
+                                : null}
+                            <Route path="/profile/:id">{profileEditRoute()}</Route>
+                            <Route>
+                                <NoMatch />
+                            </Route>
+                        </Switch>
+                    </div>
                 </div>
-                <Switch>
-                    <Route exact path="/">
-                        {dashboardRoute()}
-                    </Route>
-                    <Route path="/ledger">
-                        <Ledger />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
-                    <Route path="/signup">
-                        <Signup />
-                    </Route>
-                    <Route path="/profiles/manage">
-                        <ManageProfiles />
-                    </Route>
-                    <Route path="/profile/new">
-                        <ProfileCreate />
-                    </Route>
-                    {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
-                        ? adminRoutes()
-                        : null}
-                    <Route path="/profile/:id">{profileEditRoute()}</Route>
-                    <Route>
-                        <NoMatch />
-                    </Route>
-                </Switch>
             </UserContext.Provider>
         </Router>
     );

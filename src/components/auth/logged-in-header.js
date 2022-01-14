@@ -15,8 +15,8 @@ const LoggedInHeader = () => {
         }
     };
 
-    const logoutUser = async () => {
-        await axios
+    const logoutUser = () => {
+        axios
             .post(
                 `${process.env.REACT_APP_DOMAIN}/auth/logout`,
                 {},

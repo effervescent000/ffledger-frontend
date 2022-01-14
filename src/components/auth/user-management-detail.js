@@ -13,9 +13,9 @@ const UserManagementDetail = (props) => {
     const handleClick = (event) => {
         if (event.target.name === "save-btn") {
             const userData = {
-                id: id,
-                username: username,
-                role: role,
+                id,
+                username,
+                role,
             };
             axios
                 .put(`${process.env.REACT_APP_DOMAIN}/auth/update`, userData, {
