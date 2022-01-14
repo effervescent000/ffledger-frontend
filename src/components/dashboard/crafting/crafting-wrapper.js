@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
+import Cookies from "js-cookie";
 
 import CraftCardsWrapper from "./craft-cards-wrapper";
 
@@ -32,11 +33,8 @@ const CraftingWrapper = (props) => {
         setUpdating(false);
         await axios
             .get(`${process.env.REACT_APP_DOMAIN}/craft/get`, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
                 sortArray(response.data, {

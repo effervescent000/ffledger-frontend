@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import Header from "./header";
 import Dashboard from "./pages/dashboard";
@@ -14,67 +15,37 @@ import ProfileCreate from "./pages/profile-create";
 import ItemManagement from "./pages/item-management";
 import { UserContext } from "./user-context";
 
-export default function App(props) {
+const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [profile, setProfile] = useState({});
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         if (!loggedIn) {
-            let loggedInUser = JSON.parse(localStorage.getItem("user"));
-            if (loggedInUser) {
-                loggedInUser = loggedInUser.access_token;
-                toggleLogIn();
-                // assume that the token needs to be refreshed
-                // axios
-                //     .post(`${process.env.REACT_APP_DOMAIN}/auth/refresh`, { loggedInUser })
-                //     .then((response) => {
-                //         // console.log(response);
-                //         if (response.data) {
-                //             localStorage.setItem("user", JSON.stringify(response.data));
-                //         }
-                //     })
-                //     .catch((error) => {
-                //         console.log(error);
-                //     });
-                axios
-                    .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-                        headers: {
-                            Authorization: `Bearer ${
-                                JSON.parse(localStorage.getItem("user")).access_token
-                            }`,
-                        },
-                    })
-                    .then((response) => {
-                        if (response.data) {
-                            setProfile(response.data);
-                        }
-                    })
-                    .catch((error) => console.log(error));
+            axios
+                .get(`${process.env.REACT_APP_DOMAIN}/auth/check`, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
+                .then((response) => {
+                    console.log("auth/check response", response);
+                    if (Object.keys(response.data).length > 0) {
+                        toggleLogIn();
+                        setUser(response.data);
+                    }
+                })
+                .catch((error) => console.log("Error loading user", error));
+        } else {
+            if (Object.keys(user).length > 0 && Object.keys(profile).length === 0) {
+                for (let each_profile of user.profiles) {
+                    if (each_profile.is_active) {
+                        setProfile(each_profile);
+                        break;
+                    }
+                }
             }
         }
     });
-
-    const getActiveProfile = async () => {
-        if (loggedIn) {
-            let activeProfile = {};
-            let response = await axios
-                .get(`${process.env.REACT_APP_DOMAIN}/profile/get/active`, {
-                    headers: {
-                        Authorization: `Bearer ${
-                            JSON.parse(localStorage.getItem("user")).access_token
-                        }`,
-                    },
-                })
-                .then((response) => {
-                    if (response.data) {
-                        // activeProfile = response.data
-                        return response.data;
-                    }
-                })
-                .catch((error) => console.log(error));
-            console.log(response.resolve());
-        }
-    };
 
     const toggleLogIn = () => {
         if (loggedIn) {
@@ -85,20 +56,33 @@ export default function App(props) {
     };
 
     const dashboardRoute = () => {
-        if (Object.keys(profile).length > 0) {
+        if (profile && Object.keys(profile).length > 0) {
             return <Dashboard profile={profile} />;
         }
     };
 
     const profileEditRoute = () => {
-        if (Object.keys(profile).length > 0) {
+        if (profile && Object.keys(profile).length > 0) {
             return <ProfileEdit profile={profile} setProfile={setProfile} />;
         }
     };
 
+    const adminRoutes = () => {
+        return [
+            <Route key="user-management" path="/user-management">
+                <UserManagement />
+            </Route>,
+            <Route key="item-management" path="/item-management">
+                <ItemManagement />
+            </Route>,
+        ];
+    };
+
     return (
         <Router>
-            <UserContext.Provider value={{ loggedIn: loggedIn, toggleLogIn: toggleLogIn }}>
+            <UserContext.Provider
+                value={{ loggedIn, toggleLogIn, profile, setProfile, user, setUser }}
+            >
                 <div className="app">
                     <Header />
                 </div>
@@ -108,9 +92,6 @@ export default function App(props) {
                     </Route>
                     <Route path="/ledger">
                         <Ledger />
-                    </Route>
-                    <Route path="/user-management">
-                        <UserManagement />
                     </Route>
                     <Route path="/login">
                         <Login />
@@ -124,13 +105,15 @@ export default function App(props) {
                     <Route path="/profile/new">
                         <ProfileCreate />
                     </Route>
-                    <Route path="/item-management">
-                        <ItemManagement />
-                    </Route>
+                    {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
+                        ? adminRoutes()
+                        : null}
                     <Route path="/profile/:id">{profileEditRoute()}</Route>
                     {/* TODO add a catch-all route */}
                 </Switch>
             </UserContext.Provider>
         </Router>
     );
-}
+};
+
+export default App;

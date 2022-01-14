@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
 
-export default function InfoFrame() {
+const InfoFrame = () => {
     const [itemList, setItemList] = useState([]);
 
     useEffect(() => {
@@ -78,3 +78,5 @@ export default function InfoFrame() {
         </div>
     );
 }
+
+export default InfoFrame;

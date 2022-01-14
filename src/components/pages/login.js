@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 import { UserContext } from "../user-context";
 
-export default function Login() {
+const Login = () => {
     const userContext = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -15,11 +16,12 @@ export default function Login() {
             password: password,
         };
         axios
-            .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, { user })
+            .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, user, { withCredentials: true })
             .then((response) => {
-                localStorage.setItem("user", JSON.stringify(response.data[0]));
+                console.log(response);
                 if (!userContext.loggedIn) {
                     userContext.toggleLogIn();
+                    userContext.setUser(response.data)
                 }
             })
             .catch((error) => console.log(error));
@@ -56,4 +58,6 @@ export default function Login() {
             </form>
         </div>
     );
-}
+};
+
+export default Login;
