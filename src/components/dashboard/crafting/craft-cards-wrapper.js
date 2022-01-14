@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import CraftCardDataWrapper from "./craft-card-data-wrapper";
 
@@ -59,11 +60,8 @@ const CraftCardsWrapper = (props) => {
 
             axios
                 .post(`${process.env.REACT_APP_DOMAIN}/item/skip`, item, {
-                    headers: {
-                        Authorization: `Bearer ${
-                            JSON.parse(localStorage.getItem("user")).access_token
-                        }`,
-                    },
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
                 })
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error));
@@ -80,11 +78,8 @@ const CraftCardsWrapper = (props) => {
                 gil_value: gilValue,
             };
             axios.post(`${process.env.REACT_APP_DOMAIN}/transaction/add`, transaction, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             });
         }
     };
