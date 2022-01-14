@@ -14,6 +14,7 @@ import ProfileEdit from "./pages/profile-edit";
 import ProfileCreate from "./pages/profile-create";
 import ItemManagement from "./pages/item-management";
 import { UserContext } from "./user-context";
+import NoMatch from "./pages/no-match";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -109,7 +110,9 @@ const App = () => {
                         ? adminRoutes()
                         : null}
                     <Route path="/profile/:id">{profileEditRoute()}</Route>
-                    {/* TODO add a catch-all route */}
+                    <Route>
+                        <NoMatch />
+                    </Route>
                 </Switch>
             </UserContext.Provider>
         </Router>
