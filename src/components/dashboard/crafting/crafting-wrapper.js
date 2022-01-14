@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
 import Cookies from "js-cookie";
 
 import CraftCardsWrapper from "./craft-cards-wrapper";
+import { UserContext } from "../../user-context";
 
 const CraftingWrapper = (props) => {
     const [numCrafts, setNumCrafts] = useState(1);
@@ -11,6 +12,7 @@ const CraftingWrapper = (props) => {
     const [getCraftsButtonClicked, setGetCraftsButtonClicked] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
+    const {profile} = useContext(UserContext)
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -27,7 +29,7 @@ const CraftingWrapper = (props) => {
         setUpdating(true);
         await axios
             .put(`${process.env.REACT_APP_DOMAIN}/craft/stats/update`, {
-                id: props.profile.world.id,
+                id: profile.world.id,
             })
             .catch((error) => console.log("error updating item stats", error));
         setUpdating(false);
