@@ -13,12 +13,12 @@ const ProfileEdit = (props) => {
     const [wvrLevel, setWvrLevel] = useState(props.profile.wvr_level);
     const [retainers, setRetainers] = useState(props.profile.retainers);
 
-    function handleClick(event) {
+    const handleClick = (event) => {
         event.preventDefault();
         if (event.target.name === "add-retainer-btn") {
             setRetainers([...retainers, { id: 0, profile_id: 0, name: "" }]);
         } else if (event.target.name === "save-btn") {
-            const newProfile = { world: props.profile.world };
+            const newProfile = { id: props.profile.id, world: props.profile.world };
 
             if (alcLevel !== 0) {
                 newProfile.alc_level = alcLevel;
@@ -49,19 +49,15 @@ const ProfileEdit = (props) => {
             }
 
             axios
-                .put(
-                    `${process.env.REACT_APP_DOMAIN}/profile/update/${props.profile.id}`,
-                    newProfile,
-                    {
-                        withCredentials: true,
-                        headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
-                    }
-                )
+                .put(`${process.env.REACT_APP_DOMAIN}/profile/update`, newProfile, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
                 .then((response) => {
                     props.setProfile(response.data);
                 });
         }
-    }
+    };
 
     const handleChange = async (event, i) => {
         event.persist();

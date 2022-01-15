@@ -24,6 +24,9 @@
 
     #center-content-wrapper {
         margin: 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
         #queue-wrapper {
             #crafting-output-wrapper {
                 .craft-queue-item-wrapper {

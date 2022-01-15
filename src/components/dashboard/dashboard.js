@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import StockFrame from "../dashboard/stock-frame";
-import CraftingWrapper from "../dashboard/crafting/crafting-wrapper";
-import UndercutFrame from "../dashboard/undercut-frame";
-import InfoFrame from "../dashboard/info-frame";
+import StockFrame from "./stock-frame";
+import CraftingWrapper from "./crafting/crafting-wrapper";
+import UndercutFrame from "./undercut-frame";
+import InfoFrame from "./info-frame";
 import { UserContext } from "../user-context";
 
 const Dashboard = (props) => {

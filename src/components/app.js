@@ -4,17 +4,17 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import Header from "./header";
-import Dashboard from "./pages/dashboard";
-import Ledger from "./pages/ledger";
-import UserManagement from "./pages/user-management";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
-import ManageProfiles from "./pages/manage-profiles";
-import ProfileEdit from "./pages/profile-edit";
-import ProfileCreate from "./pages/profile-create";
-import ItemManagement from "./pages/item-management";
+import Dashboard from "./dashboard/dashboard";
+import Ledger from "./ledger/ledger";
+import UserManagement from "./auth/user-management";
+import Login from "./auth/login";
+import Signup from "./auth/signup";
+import ManageProfiles from "./profiles/manage-profiles";
+import ProfileEdit from "./profiles/profile-edit";
+import ProfileCreate from "./profiles/profile-create";
+import ItemManagement from "./item-management/item-management";
 import { UserContext } from "./user-context";
-import NoMatch from "./pages/no-match";
+import NoMatch from "./no-match";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);

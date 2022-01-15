@@ -33,6 +33,7 @@ const CraftingWrapper = (props) => {
             })
             .catch((error) => console.log("error updating item stats", error));
         setUpdating(false);
+        const craftsStart = Date.now();
         await axios
             .get(`${process.env.REACT_APP_DOMAIN}/craft/get`, {
                 withCredentials: true,
@@ -47,8 +48,8 @@ const CraftingWrapper = (props) => {
                             Math.round(((item.price - item.craft_cost) * item.sales_velocity) / 24),
                     },
                 });
-                console.log("response from get_crafts", response.data);
                 setCrafts(response.data);
+                console.log(`Crafting queue processed in ${(Date.now() - craftsStart) / 1000}s`);
             })
             .catch((error) => console.log("Error getting crafts", error));
 
