@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function (props) {
+import { UserContext } from "../user-context";
+
+const UndercutFrame = () => {
     const [buttonPressed, setButtonPressed] = useState("NOT_PRESSED");
     const [undercuts, setUndercuts] = useState([]);
+    const { profile } = useContext(UserContext);
 
     const getItemName = async (id) => {
         let response = await axios
@@ -40,11 +43,11 @@ export default function (props) {
         setUndercuts([]);
         const stockIds = (await getStockIds()).join(",");
         const retainerNameArray = [];
-        props.profile.retainers.forEach((retainer) => {
+        profile.retainers.forEach((retainer) => {
             retainerNameArray.push(retainer.name);
         });
         const data = await axios
-            .get(`https://universalis.app/api/${props.profile.world.id}/${stockIds}`)
+            .get(`https://universalis.app/api/${profile.world.id}/${stockIds}`)
             .then((response) => response.data);
 
         for (const item of data.items) {
@@ -103,4 +106,6 @@ export default function (props) {
             <div id="undercut-wrapper">{renderUndercuts()}</div>
         </div>
     );
-}
+};
+
+export default UndercutFrame;

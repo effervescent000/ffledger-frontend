@@ -45,7 +45,7 @@ const Dashboard = (props) => {
                 </div>
                 <div id="center-content-wrapper">
                     <CraftingWrapper />
-                    <UndercutFrame profile={props.profile} />
+                    <UndercutFrame />
                 </div>
                 <div id="right-content-wrapper">
                     <InfoFrame />
