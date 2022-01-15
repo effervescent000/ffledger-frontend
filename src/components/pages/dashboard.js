@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import StockFrame from "../dashboard/stock-frame";
 import CraftingWrapper from "../dashboard/crafting/crafting-wrapper";
@@ -31,8 +32,7 @@ const Dashboard = (props) => {
     const noProfileContent = () => {
         return (
             <div>
-                Hey you don't have a profile set, please create one to use the site :)
-                {/* also some crap here ufck you prettier */}
+                Please <Link to="/profile/new">create a profile</Link> to use the site.
             </div>
         );
     };
