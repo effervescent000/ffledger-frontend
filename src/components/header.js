@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import AccountStatus from "./auth/account-status";
+import LoggedInHeader from "./auth/logged-in-header";
+import LoggedOutHeader from "./auth/logged-out-header";
 import { UserContext } from "./user-context";
 
 const Header = () => {
-    const { user } = useContext(UserContext);
+    const { user, loggedIn } = useContext(UserContext);
 
     const adminLinks = () => {
         return (
@@ -34,7 +35,7 @@ const Header = () => {
             <div id="right-side-header">
                 {user.roles === "admin" ? adminLinks() : null}
                 <div id="account-wrapper">
-                    <AccountStatus />
+                    {loggedIn ? <LoggedInHeader /> : <LoggedOutHeader />}
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { UserContext } from "../user-context";
+import AccountEditPage from "./account-edit";
 
 const LoggedInHeader = () => {
     const userContext = useContext(UserContext);
@@ -42,7 +43,10 @@ const LoggedInHeader = () => {
     return (
         <div id="logged-in">
             <div id="greeting">Hi {userContext.user.username}</div>
-            <div id="manage-profiles-wrapper">
+            <div className="link-wrapper">
+                <Link to="/account/edit">Edit account</Link>
+            </div>
+            <div className="link-wrapper">
                 <Link to="/profiles/manage">Manage profiles</Link>
             </div>
             <div id="logout">

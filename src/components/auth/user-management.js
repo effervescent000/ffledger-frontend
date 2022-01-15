@@ -13,7 +13,7 @@ const UserManagement = () => {
 
     const getUserList = () => {
         axios
-            .get(`${process.env.REACT_APP_DOMAIN}/auth/get/all`, {
+            .get(`${process.env.REACT_APP_DOMAIN}/auth/get`, {
                 withCredentials: true,
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })

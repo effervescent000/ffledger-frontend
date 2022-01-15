@@ -15,6 +15,7 @@ import ProfileCreate from "./profiles/profile-create";
 import ItemManagement from "./item-management/item-management";
 import { UserContext } from "./user-context";
 import NoMatch from "./no-match";
+import AccountEditPage from "./auth/account-edit";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -98,6 +99,9 @@ const App = () => {
                             </Route>
                             <Route path="/profile/new">
                                 <ProfileCreate />
+                            </Route>
+                            <Route path="/account/edit">
+                                <AccountEditPage />
                             </Route>
                             {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
                                 ? adminRoutes()
