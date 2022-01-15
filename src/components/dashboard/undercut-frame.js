@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-export default function (props) {
+import { UserContext } from "../user-context";
+
+const UndercutFrame = () => {
     const [buttonPressed, setButtonPressed] = useState("NOT_PRESSED");
     const [undercuts, setUndercuts] = useState([]);
+    const { profile } = useContext(UserContext);
 
     const getItemName = async (id) => {
         let response = await axios
@@ -21,11 +25,8 @@ export default function (props) {
         const stockIdArray = [];
         await axios
             .get(`${process.env.REACT_APP_DOMAIN}/item/stock`, {
-                headers: {
-                    Authorization: `Bearer ${
-                        JSON.parse(localStorage.getItem("user")).access_token
-                    }`,
-                },
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
                 // console.log(response.data)
@@ -39,35 +40,35 @@ export default function (props) {
 
     const getUndercuts = async () => {
         // first reset undercuts
-        setUndercuts([])
+        setUndercuts([]);
         const stockIds = (await getStockIds()).join(",");
         const retainerNameArray = [];
-        props.profile.retainers.forEach((retainer) => {
+        profile.retainers.forEach((retainer) => {
             retainerNameArray.push(retainer.name);
         });
         const data = await axios
-            .get(`https://universalis.app/api/${props.profile.world.id}/${stockIds}`)
+            .get(`https://universalis.app/api/${profile.world.id}/${stockIds}`)
             .then((response) => response.data);
 
         for (const item of data.items) {
-            const isRetainerFound = findMyRetainer(retainerNameArray, item.listings)
+            const isRetainerFound = findMyRetainer(retainerNameArray, item.listings);
             // first make sure one of my retainers is there, if not then don't bother
             if (isRetainerFound) {
                 // now find the index of the first HQ listing
-                let row = -1
-                let hqFound = false
+                let row = -1;
+                let hqFound = false;
                 while (row < item.listings.length && !hqFound) {
                     row++;
                     if (item.listings[row].hq) {
-                        hqFound = true
+                        hqFound = true;
                     }
                 }
                 // check if the first HQ listing found belongs to one of my retainers:
                 if (!retainerNameArray.includes(item.listings[row].retainerName)) {
-                    item.name = await getItemName(item.itemID)
+                    item.name = await getItemName(item.itemID);
                     // create an object with the relevant information and add it to undercuts
-                    const undercutObj = {name: item.name, retainer: isRetainerFound}
-                    setUndercuts(undercuts => [...undercuts, undercutObj])
+                    const undercutObj = { name: item.name, retainer: isRetainerFound };
+                    setUndercuts((undercuts) => [...undercuts, undercutObj]);
                 }
             }
         }
@@ -90,7 +91,11 @@ export default function (props) {
     const renderUndercuts = () => {
         if (undercuts.length > 0) {
             return undercuts.map((item) => {
-                return <div className="undercut-listing">{item.name} on {item.retainer} may have been undercut</div>;
+                return (
+                    <div className="undercut-listing">
+                        {item.name} on {item.retainer} may have been undercut
+                    </div>
+                );
             });
         }
     };
@@ -101,4 +106,6 @@ export default function (props) {
             <div id="undercut-wrapper">{renderUndercuts()}</div>
         </div>
     );
-}
+};
+
+export default UndercutFrame;
