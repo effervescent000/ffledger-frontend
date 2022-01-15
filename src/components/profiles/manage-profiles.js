@@ -14,7 +14,12 @@ const ManageProfiles = () => {
         return profiles.map((profile) => {
             return (
                 <div key={profile.id} className="profile-wrapper">
-                    <Link to={`/profile/${profile.id}`}>Profile for {profile.world.name}</Link>
+                    <div className="radio-btn">
+                        <input type="radio" name="is-active-radio" value={profile.id} />
+                    </div>
+                    <div className="text-wrapper">
+                        <Link to={`/profile/${profile.id}`}>Profile for {profile.world.name}</Link>
+                    </div>
                 </div>
             );
         });
@@ -22,14 +27,14 @@ const ManageProfiles = () => {
 
     const getProfiles = () => {
         axios
-            .get(`${process.env.REACT_APP_DOMAIN}/profile/get/all`, {
+            .get(`${process.env.REACT_APP_DOMAIN}/profile/get`, {
                 withCredentials: true,
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
                 setProfiles(response.data);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.log(error.response));
     };
 
     return (

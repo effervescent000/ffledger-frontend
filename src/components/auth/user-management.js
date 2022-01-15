@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import UserManagementDetail from "../auth/user-management-detail";
+import UserManagementDetail from "./user-management-detail";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([{}]);
