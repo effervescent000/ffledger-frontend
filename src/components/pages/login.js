@@ -5,9 +5,10 @@ import axios from "axios";
 import { UserContext } from "../user-context";
 
 const Login = () => {
-    const userContext = useContext(UserContext);
+    const { loggedIn, toggleLogIn, setUser } = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -19,12 +20,14 @@ const Login = () => {
             .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, user, { withCredentials: true })
             .then((response) => {
                 console.log(response);
-                if (!userContext.loggedIn) {
-                    userContext.toggleLogIn();
-                    userContext.setUser(response.data)
+                if (!loggedIn) {
+                    toggleLogIn();
+                    setUser(response.data);
                 }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                setErrorMessage(error.response.data);
+            });
     };
 
     const handleChange = (event) => {
@@ -33,6 +36,7 @@ const Login = () => {
         } else if (event.target.name === "password") {
             setPassword(event.target.value);
         }
+        setErrorMessage("");
     };
 
     return (
@@ -52,10 +56,9 @@ const Login = () => {
                     value={password}
                     onChange={handleChange}
                 />
-                <button type="submit" onClick={handleClick}>
-                    Login
-                </button>
+                <button onClick={handleClick}>Login</button>
             </form>
+            {errorMessage}
         </div>
     );
 };
