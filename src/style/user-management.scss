@@ -1,7 +1,11 @@
 #user-management-wrapper {
-    width: 50%;
+    width: 40%;
     .user-wrapper {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        .btn-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
     }
 }

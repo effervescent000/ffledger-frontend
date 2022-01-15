@@ -10,19 +10,30 @@ const UserManagementDetail = (props) => {
         setRole(event.target.value);
     };
 
-    const handleClick = () => {
-        const userData = {
-            id: id,
-            username: username,
-            role: role,
-        };
-        axios
-            .put(`${process.env.REACT_APP_DOMAIN}/auth/update`, userData, {
-                withCredentials: true,
-                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
-            })
-            .then((response) => console.log(response))
-            .catch((error) => console.log("Error updating user", error));
+    const handleClick = (event) => {
+        if (event.target.name === "save-btn") {
+            const userData = {
+                id,
+                username,
+                role,
+            };
+            axios
+                .put(`${process.env.REACT_APP_DOMAIN}/auth/update`, userData, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
+                .catch((error) => console.log("Error updating user", error.response));
+        } else if (event.target.name === "delete-btn") {
+            axios
+                .delete(`${process.env.REACT_APP_DOMAIN}/auth/delete/${id}`, {
+                    withCredentials: true,
+                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => console.log(error.response));
+        }
     };
 
     return (
@@ -36,9 +47,18 @@ const UserManagementDetail = (props) => {
                     <option value="admin">Admin</option>
                 </select>
             </div>
-            <button value={id} onClick={handleClick}>
-                Save
-            </button>
+            <div className="btn-wrapper">
+                <div className="btn">
+                    <button name="save-btn" value={id} onClick={handleClick}>
+                        Save
+                    </button>
+                </div>
+                <div className="btn">
+                    <button name="delete-btn" value={id} onClick={handleClick}>
+                        Delete
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

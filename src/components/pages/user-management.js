@@ -22,13 +22,13 @@ const UserManagement = () => {
             });
     };
 
-    function populateUsers() {
+    const populateUsers = () => {
         if (users.length > 0) {
             return users.map((user) => {
                 return <UserManagementDetail key={user.id} user={user} />;
             });
         }
-    }
+    };
 
     return <div id="user-management-wrapper">{populateUsers()}</div>;
 };
