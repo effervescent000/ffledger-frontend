@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const AccountEditPage = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, setProfile, toggleLogIn } = useContext(UserContext);
     const [usernameInput, setUsernameInput] = useState(user.username);
     const [emailInput, setEmailInput] = useState("");
     const [confirmDeleteStyle, setConfirmDeleteStyle] = useState("none");
@@ -39,15 +39,18 @@ const AccountEditPage = () => {
                     setUser(response.data);
                 })
                 .catch((error) => console.log(error.response));
-        } else if (event.target.naem === "delete-btn") {
+        } else if (event.target.name === "delete-btn") {
             setConfirmDeleteStyle("block");
         } else if (event.target.name === "confirm-delete-btn") {
             axios
-                .delete(`${process.env.REACT_APP_DOMAIN}`, {
+                .delete(`${process.env.REACT_APP_DOMAIN}/auth/delete`, {
                     withCredentials: true,
                     headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
                 })
                 .then((response) => {
+                    setUser({});
+                    setProfile({});
+                    toggleLogIn();
                     history.push("/");
                 })
                 .catch((error) => console.log(error.response));
@@ -69,14 +72,18 @@ const AccountEditPage = () => {
                 </button>
             </div>
             <div className="delete-wrapper">
-                <div className="delete-btn">
-                    Delete your account?{" "}
-                    <span className="warning">WARNING: THIS CANNOT BE UNDONE!</span>
-                    <button name="delete-btn" onClick={handleClick}>
-                        Delete account
-                    </button>
+                <div className="delete-btn-wrapper">
+                    <div className="text-wrapper">
+                        Delete your account?{" "}
+                        <span className="warning">WARNING: THIS CANNOT BE UNDONE!</span>
+                    </div>
+                    <div className="btn-wrapper">
+                        <button name="delete-btn" onClick={handleClick}>
+                            Delete account
+                        </button>
+                    </div>
                 </div>
-                <div className="secret-delete-btn" style={{ display: confirmDeleteStyle }}>
+                <div className="secret-delete-wrapper" style={{ display: confirmDeleteStyle }}>
                     <button name="confirm-delete-btn" onClick={handleClick}>
                         Confirm account deletion
                     </button>

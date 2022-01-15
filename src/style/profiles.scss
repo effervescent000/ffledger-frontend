@@ -7,3 +7,17 @@
         padding: 2px 0px;
     }
 }
+
+// account edit page styles
+#account-edit-wrapper {
+    display: grid;
+    gap: 50px;
+    .delete-wrapper {
+        display: grid;
+        gap: 30px;
+        .delete-btn-wrapper {
+            display: grid;
+            gap: 10px;
+        }
+    }
+}
