@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
+import ProfileListing from "./profile-listing";
+
 const ManageProfiles = () => {
     const [profiles, setProfiles] = useState([]);
 
@@ -12,16 +14,7 @@ const ManageProfiles = () => {
 
     const populateProfiles = () => {
         return profiles.map((profile) => {
-            return (
-                <div key={profile.id} className="profile-wrapper">
-                    <div className="radio-btn">
-                        <input type="radio" name="is-active-radio" value={profile.id} />
-                    </div>
-                    <div className="text-wrapper">
-                        <Link to={`/profile/${profile.id}`}>Profile for {profile.world.name}</Link>
-                    </div>
-                </div>
-            );
+            return <ProfileListing key={profile.id} profile={profile} getProfiles={getProfiles} />;
         });
     };
 
