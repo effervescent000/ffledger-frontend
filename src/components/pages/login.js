@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import { UserContext } from "../user-context";
 
@@ -9,6 +9,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const history = useHistory();
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -19,11 +20,11 @@ const Login = () => {
         axios
             .post(`${process.env.REACT_APP_DOMAIN}/auth/login`, user, { withCredentials: true })
             .then((response) => {
-                console.log(response);
                 if (!loggedIn) {
                     toggleLogIn();
                     setUser(response.data);
                 }
+                history.push("/");
             })
             .catch((error) => {
                 setErrorMessage(error.response.data);

@@ -1,14 +1,16 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import { UserContext } from "../user-context";
 
 const Signup = () => {
-    const { loggedIn, toggleLogIn } = useContext(UserContext);
+    const { loggedIn, toggleLogIn, setUser } = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const history = useHistory();
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -24,7 +26,9 @@ const Signup = () => {
                 .then((response) => {
                     if (!loggedIn) {
                         toggleLogIn();
+                        setUser(response.data);
                     }
+                    history.push("/");
                 })
                 .catch((error) => console.log(error));
         } else {
