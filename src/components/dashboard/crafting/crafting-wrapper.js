@@ -12,7 +12,7 @@ const CraftingWrapper = (props) => {
     const [getCraftsButtonClicked, setGetCraftsButtonClicked] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
-    const {profile} = useContext(UserContext)
+    const { profile } = useContext(UserContext);
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -40,6 +40,7 @@ const CraftingWrapper = (props) => {
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
+                // console.log("craft response", response.data);
                 sortArray(response.data, {
                     by: "gph",
                     order: "desc",
@@ -48,7 +49,7 @@ const CraftingWrapper = (props) => {
                             Math.round(((item.price - item.craft_cost) * item.sales_velocity) / 24),
                     },
                 });
-                setCrafts(response.data);
+                setCrafts(response.data.filter((item) => item.craft_cost !== null));
                 console.log(`Crafting queue processed in ${(Date.now() - craftsStart) / 1000}s`);
             })
             .catch((error) => console.log("Error getting crafts", error));
