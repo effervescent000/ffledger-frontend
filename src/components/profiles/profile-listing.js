@@ -35,7 +35,7 @@ const ProfileListing = (props) => {
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
-                console.log("response for profile deletion", response);
+                getProfiles();
             })
             .catch((error) => console.log(error.response));
     };
