@@ -28,6 +28,18 @@ const ProfileListing = (props) => {
         }
     };
 
+    const deleteProfile = () => {
+        axios
+            .delete(`${process.env.REACT_APP_DOMAIN}/profile/delete/${profile.id}`, {
+                withCredentials: true,
+                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+            })
+            .then((response) => {
+                getProfiles();
+            })
+            .catch((error) => console.log(error.response));
+    };
+
     return (
         <div className="profile-wrapper">
             <div className="radio-btn">
@@ -40,7 +52,12 @@ const ProfileListing = (props) => {
                 />
             </div>
             <div className="text-wrapper">
-                <Link to={`/profile/${profile.id}`}>Profile for {profile.world.name}</Link>
+                <div className="link-wrapper">
+                    <Link to={`/profile/${profile.id}`}>Profile for {profile.world.name}</Link>
+                </div>
+                <div className="btn-wrapper">
+                    <button onClick={deleteProfile}>Delete profile</button>
+                </div>
             </div>
         </div>
     );
