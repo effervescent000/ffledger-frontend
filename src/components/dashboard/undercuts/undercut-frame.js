@@ -112,11 +112,14 @@ const UndercutFrame = () => {
             <button name="undercut-btn" onClick={handleClick} disabled={buttonPressed}>
                 Check for undercuts
             </button>
-            <div id="undercuts-header">
-                <div className="item-name">Item</div>
-                <div className="retainer-name">Retainer</div>
-                <div className="undercut-price">Lowest price</div>
-            </div>
+            {undercuts.length > 0 ? (
+                <div id="undercuts-header">
+                    <div className="item-name">Item</div>
+                    <div className="retainer-name">Retainer</div>
+                    <div className="undercut-price">Lowest price</div>
+                </div>
+            ) : null}
+
             <div id="undercut-wrapper">{renderUndercuts()}</div>
         </div>
     );
