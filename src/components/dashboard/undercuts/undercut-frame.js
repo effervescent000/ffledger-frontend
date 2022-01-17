@@ -76,6 +76,9 @@ const UndercutFrame = () => {
                     }
                 }
             }
+            if (undercuts.length === 0) {
+                setStatus("No undercuts found");
+            }
         } else {
             setStatus("Please set up retainers for this profile to use this feature");
         }
