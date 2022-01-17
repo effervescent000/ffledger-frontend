@@ -5,6 +5,10 @@
         display: flex;
         gap: 10px;
         padding: 2px 0px;
+        .text-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+        }
     }
 }
 
