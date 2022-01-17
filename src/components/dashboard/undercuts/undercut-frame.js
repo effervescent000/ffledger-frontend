@@ -40,41 +40,46 @@ const UndercutFrame = () => {
     };
 
     const getUndercuts = async () => {
-        const stockIds = (await getStockIds()).join(",");
-        const retainerNameArray = [];
-        profile.retainers.forEach((retainer) => {
-            retainerNameArray.push(retainer.name);
-        });
-        const data = await axios
-            .get(`https://universalis.app/api/${profile.world.id}/${stockIds}`)
-            .then((response) => response.data);
+        if (profile.retainers.length > 0) {
+            const stockIds = (await getStockIds()).join(",");
+            const retainerNameArray = [];
+            profile.retainers.forEach((retainer) => {
+                retainerNameArray.push(retainer.name);
+            });
+            const data = await axios
+                .get(`https://universalis.app/api/${profile.world.id}/${stockIds}`)
+                .then((response) => response.data);
 
-        for (const item of data.items) {
-            const isRetainerFound = findMyRetainer(retainerNameArray, item.listings);
-            // first make sure one of my retainers is there, if not then don't bother
-            if (isRetainerFound) {
-                // now find the index of the first HQ listing
-                let row = -1;
-                let hqFound = false;
-                while (row < item.listings.length && !hqFound) {
-                    row++;
-                    if (item.listings[row].hq) {
-                        hqFound = true;
+            for (const item of data.items) {
+                const isRetainerFound = findMyRetainer(retainerNameArray, item.listings);
+                // first make sure one of my retainers is there, if not then don't bother
+                if (isRetainerFound) {
+                    // now find the index of the first HQ listing
+                    let row = -1;
+                    let hqFound = false;
+                    while (row < item.listings.length && !hqFound) {
+                        row++;
+                        if (item.listings[row].hq) {
+                            hqFound = true;
+                        }
+                    }
+                    // check if the first HQ listing found belongs to one of my retainers:
+                    if (!retainerNameArray.includes(item.listings[row].retainerName)) {
+                        item.name = await getItemName(item.itemID);
+                        // create an object with the relevant information and add it to undercuts
+                        const undercutObj = {
+                            name: item.name,
+                            retainer: isRetainerFound,
+                            price: Math.round(item.listings[row].pricePerUnit / 1.05),
+                        };
+                        setUndercuts((undercuts) => [...undercuts, undercutObj]);
                     }
                 }
-                // check if the first HQ listing found belongs to one of my retainers:
-                if (!retainerNameArray.includes(item.listings[row].retainerName)) {
-                    item.name = await getItemName(item.itemID);
-                    // create an object with the relevant information and add it to undercuts
-                    const undercutObj = {
-                        name: item.name,
-                        retainer: isRetainerFound,
-                        price: item.listings[row].pricePerUnit,
-                    };
-                    setUndercuts((undercuts) => [...undercuts, undercutObj]);
-                }
             }
+        } else {
+            setStatus("Please set up retainers for this profile to use this feature");
         }
+
         setButtonPressed(false);
     };
 
@@ -112,11 +117,14 @@ const UndercutFrame = () => {
             <button name="undercut-btn" onClick={handleClick} disabled={buttonPressed}>
                 Check for undercuts
             </button>
-            <div id="undercuts-header">
-                <div className="item-name">Item</div>
-                <div className="retainer-name">Retainer</div>
-                <div className="undercut-price">Lowest price</div>
-            </div>
+            {undercuts.length > 0 ? (
+                <div id="undercuts-header">
+                    <div className="item-name">Item</div>
+                    <div className="retainer-name">Retainer</div>
+                    <div className="undercut-price">Lowest price</div>
+                </div>
+            ) : null}
+
             <div id="undercut-wrapper">{renderUndercuts()}</div>
         </div>
     );
