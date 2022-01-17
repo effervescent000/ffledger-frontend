@@ -2,12 +2,14 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import { UserContext } from "../user-context";
+import { UserContext } from "../../user-context";
+import UnderCutItem from "./undercut-item";
 
 const UndercutFrame = () => {
-    const [buttonPressed, setButtonPressed] = useState("NOT_PRESSED");
+    const [buttonPressed, setButtonPressed] = useState(false);
     const [undercuts, setUndercuts] = useState([]);
     const { profile } = useContext(UserContext);
+    const [status, setStatus] = useState("");
 
     const getItemName = async (id) => {
         let response = await axios
@@ -17,7 +19,6 @@ const UndercutFrame = () => {
                 return data.name;
             })
             .catch((error) => console.log(error));
-        // console.log(response);
         return response;
     };
 
@@ -39,8 +40,6 @@ const UndercutFrame = () => {
     };
 
     const getUndercuts = async () => {
-        // first reset undercuts
-        setUndercuts([]);
         const stockIds = (await getStockIds()).join(",");
         const retainerNameArray = [];
         profile.retainers.forEach((retainer) => {
@@ -67,42 +66,57 @@ const UndercutFrame = () => {
                 if (!retainerNameArray.includes(item.listings[row].retainerName)) {
                     item.name = await getItemName(item.itemID);
                     // create an object with the relevant information and add it to undercuts
-                    const undercutObj = { name: item.name, retainer: isRetainerFound };
+                    const undercutObj = {
+                        name: item.name,
+                        retainer: isRetainerFound,
+                        price: item.listings[row].pricePerUnit,
+                    };
                     setUndercuts((undercuts) => [...undercuts, undercutObj]);
                 }
             }
         }
-
-        // iterate over the returned listings
-        // find ones where the lowest price HQ listing is not one of the profile's retainers
-        // ignore listings where none of the retainers' names are present
+        setButtonPressed(false);
     };
 
     const findMyRetainer = (retainerNameArray, listings) => {
-        let returnValue = false;
-        listings.forEach((listing) => {
+        for (let listing of listings) {
             if (retainerNameArray.includes(listing.retainerName)) {
-                returnValue = listing.retainerName;
+                return listing.retainerName;
             }
-        });
-        return returnValue;
+        }
     };
 
     const renderUndercuts = () => {
-        if (undercuts.length > 0) {
-            return undercuts.map((item) => {
-                return (
-                    <div className="undercut-listing">
-                        {item.name} on {item.retainer} may have been undercut
-                    </div>
-                );
+        if (buttonPressed) {
+            return <span>Thinking...</span>;
+        } else if (undercuts.length > 0) {
+            return undercuts.map((undercut) => {
+                return <UnderCutItem item={undercut} />;
             });
+        } else {
+            return <span>{status}</span>;
+        }
+    };
+
+    const handleClick = (event) => {
+        if (event.target.name === "undercut-btn") {
+            setButtonPressed(true);
+            setUndercuts([]);
+            setStatus("");
+            getUndercuts();
         }
     };
 
     return (
         <div id="undercut-frame-wrapper">
-            <button onClick={getUndercuts}>Check for undercuts</button>
+            <button name="undercut-btn" onClick={handleClick} disabled={buttonPressed}>
+                Check for undercuts
+            </button>
+            <div id="undercuts-header">
+                <div className="item-name">Item</div>
+                <div className="retainer-name">Retainer</div>
+                <div className="undercut-price">Lowest price</div>
+            </div>
             <div id="undercut-wrapper">{renderUndercuts()}</div>
         </div>
     );

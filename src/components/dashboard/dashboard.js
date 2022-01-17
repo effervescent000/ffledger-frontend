@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import StockFrame from "./stock-frame";
 import CraftingWrapper from "./crafting/crafting-wrapper";
-import UndercutFrame from "./undercut-frame";
+import UndercutFrame from "./undercuts/undercut-frame";
 import InfoFrame from "./info-frame";
 import { UserContext } from "../user-context";
 
