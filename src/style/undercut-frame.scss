@@ -1,0 +1,11 @@
+#undercut-frame-wrapper {
+    #undercuts-header {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        font-weight: 700;
+    }
+    .undercut-item-wrapper {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+}
