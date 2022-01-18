@@ -63,32 +63,36 @@
         #info-frame-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-
-            #entry-wrapper {
-                select {
-                    @include input-styling;
-                    width: 250px;
-                }
-
-                input[type="number"] {
-                    @include input-styling;
-                    width: 100px;
-                }
-            }
-
-            .buttons-wrapper {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            #info-inputs-wrapper {
+                display: flex;
+                flex-direction: column;
                 gap: 10px;
-                justify-items: center;
+                #entry-wrapper {
+                    select {
+                        @include input-styling;
+                        width: 250px;
+                    }
+
+                    input[type="number"] {
+                        @include input-styling;
+                        width: 100px;
+                    }
+                }
+
+                .buttons-wrapper {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                    justify-items: center;
+                }
             }
-        }
-        #log-frame-wrapper {
-            #log-wrapper textarea {
-                @include textarea-styling;
+            #info-panel-wrapper {
                 width: 50%;
-                height: 12em;
+                .attribute {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
             }
         }
     }
