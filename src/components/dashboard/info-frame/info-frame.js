@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
 
 import ItemInfoPanel from "./item-info-panel";
+import { UserContext } from "../../user-context";
 
 const InfoFrame = (props) => {
+    const { profile } = useContext(UserContext);
     const [itemList, setItemList] = useState([]);
     const [itemSelectValue, setItemSelectValue] = useState("");
     const [amountInput, setAmountInput] = useState(0);
     const [gilInput, setGilInput] = useState(0);
+    const [selectedItemStats, setSelectedItemStats] = useState({});
 
     useEffect(() => {
         getItemList();
@@ -38,6 +41,17 @@ const InfoFrame = (props) => {
     const handleChange = (event) => {
         if (event.target.name === "item-select") {
             setItemSelectValue(event.target.value);
+
+            axios
+                .get(`${process.env.REACT_APP_DOMAIN}/item/stats/${event.target.value}`, {
+                    params: {
+                        world: profile.world.id,
+                    },
+                })
+                .then((response) => {
+                    setSelectedItemStats(response.data);
+                })
+                .catch((error) => console.log(error.response));
         } else if (event.target.name === "amount-input") {
             setAmountInput(event.target.value);
         } else if (event.target.name === "gil-input") {
@@ -85,10 +99,8 @@ const InfoFrame = (props) => {
                     </button>
                 </div>
             </div>
-            {itemSelectValue ? (
-                <ItemInfoPanel
-                    item={itemList.find((item) => item.id === parseInt(itemSelectValue))}
-                />
+            {Object.keys(selectedItemStats).length > 0 ? (
+                <ItemInfoPanel item={selectedItemStats} />
             ) : null}
         </div>
     );

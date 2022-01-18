@@ -61,6 +61,9 @@
         flex-direction: column;
         gap: 4em;
         #info-frame-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             #info-inputs-wrapper {
                 display: flex;
                 flex-direction: column;
@@ -82,6 +85,13 @@
                     grid-template-columns: repeat(3, 1fr);
                     gap: 10px;
                     justify-items: center;
+                }
+            }
+            #info-panel-wrapper {
+                width: 50%;
+                .attribute {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
                 }
             }
         }
