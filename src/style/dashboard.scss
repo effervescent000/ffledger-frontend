@@ -61,34 +61,28 @@
         flex-direction: column;
         gap: 4em;
         #info-frame-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            #entry-wrapper {
-                select {
-                    @include input-styling;
-                    width: 250px;
-                }
-
-                input[type="number"] {
-                    @include input-styling;
-                    width: 100px;
-                }
-            }
-
-            .buttons-wrapper {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
+            #info-inputs-wrapper {
+                display: flex;
+                flex-direction: column;
                 gap: 10px;
-                justify-items: center;
-            }
-        }
-        #log-frame-wrapper {
-            #log-wrapper textarea {
-                @include textarea-styling;
-                width: 50%;
-                height: 12em;
+                #entry-wrapper {
+                    select {
+                        @include input-styling;
+                        width: 250px;
+                    }
+
+                    input[type="number"] {
+                        @include input-styling;
+                        width: 100px;
+                    }
+                }
+
+                .buttons-wrapper {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                    justify-items: center;
+                }
             }
         }
     }

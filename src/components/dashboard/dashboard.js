@@ -8,7 +8,7 @@ import sortArray from "sort-array";
 import StockFrame from "./stock-frame";
 import CraftingWrapper from "./crafting/crafting-wrapper";
 import UndercutFrame from "./undercuts/undercut-frame";
-import InfoFrame from "./info-frame";
+import InfoFrame from "./info-frame/info-frame";
 import { UserContext } from "../user-context";
 
 const Dashboard = (props) => {
