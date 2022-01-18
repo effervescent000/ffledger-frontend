@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import sortArray from "sort-array";
 import Cookies from "js-cookie";
@@ -13,6 +13,10 @@ const CraftingWrapper = (props) => {
     const [updating, setUpdating] = useState(false);
     const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
     const { profile } = useContext(UserContext);
+
+    useEffect(() => {
+        props.getStock();
+    }, [crafts]);
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -73,6 +77,8 @@ const CraftingWrapper = (props) => {
                     numCrafts={numCrafts}
                     removeCraft={removeCraft}
                     classicalDisplay={classicalDisplay}
+                    postTransaction={props.postTransaction}
+                    getStock={props.getStock}
                 />
             );
         }

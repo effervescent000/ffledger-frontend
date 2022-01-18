@@ -50,8 +50,7 @@ const CraftCardsWrapper = (props) => {
             const amount = 1;
             const gilValue = 0;
 
-            postTransaction(selectedItem, amount, gilValue);
-
+            props.postTransaction(selectedItem, amount, gilValue);
             props.removeCraft(event.target.value);
         } else if (event.target.name === "skip-btn") {
             const item = {
@@ -67,20 +66,6 @@ const CraftCardsWrapper = (props) => {
                 .catch((error) => console.log(error));
 
             props.removeCraft(event.target.value);
-        }
-    };
-
-    const postTransaction = (selectedItem, amount, gilValue) => {
-        if (selectedItem != undefined && amount != undefined && gilValue != undefined) {
-            const transaction = {
-                item_id: selectedItem,
-                amount: amount,
-                gil_value: gilValue,
-            };
-            axios.post(`${process.env.REACT_APP_DOMAIN}/transaction/add`, transaction, {
-                withCredentials: true,
-                headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
-            });
         }
     };
 
