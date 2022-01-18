@@ -78,7 +78,6 @@ const CraftingWrapper = (props) => {
                     removeCraft={removeCraft}
                     classicalDisplay={classicalDisplay}
                     postTransaction={props.postTransaction}
-                    getStock={props.getStock}
                 />
             );
         }

@@ -52,7 +52,7 @@ const Dashboard = (props) => {
                     <StockFrame postTransaction={postTransaction} stock={stock} />
                 </div>
                 <div id="center-content-wrapper">
-                    <CraftingWrapper postTransaction={postTransaction} />
+                    <CraftingWrapper postTransaction={postTransaction} getStock={getStock} />
                     <UndercutFrame />
                 </div>
                 <div id="right-content-wrapper">
