@@ -43,6 +43,19 @@
                 margin: 5px;
                 z-index: 1;
                 transition: 0.3s;
+                form {
+                    #entries-wrapper {
+                        .job-wrapper {
+                            display: grid;
+                            grid-template-columns: 80px 1fr;
+                            .min-level-input {
+                                display: grid;
+                                grid-template-columns: max-content 1fr;
+                                gap: 10px;
+                            }
+                        }
+                    }
+                }
             }
             #crafting-output-wrapper {
                 .craft-queue-item-wrapper {
