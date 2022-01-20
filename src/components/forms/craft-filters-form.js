@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import Cookies from "js-cookie";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -8,25 +7,29 @@ import NumberInput from "./form-components/number-input";
 import CheckboxInput from "./form-components/checkbox-input";
 
 const CraftFiltersForm = (props) => {
+    const filterSettings = Cookies.get("filterSettings")
+        ? JSON.parse(Cookies.get("filterSettings"))
+        : {};
+
     return (
         <Formik
             initialValues={{
-                alcEnabled: true,
-                alcMinLevel: "",
-                armEnabled: true,
-                armMinLevel: "",
-                bsmEnabled: true,
-                bsmMinLevel: "",
-                crpEnabled: true,
-                crpMinLevel: "",
-                culEnabled: true,
-                culMinLevel: "",
-                gsmEnabled: true,
-                gsmMinLevel: "",
-                ltwEnabled: true,
-                ltwMinLevel: "",
-                wvrEnabled: true,
-                wvrMinLevel: "",
+                alcEnabled: filterSettings.alcEnabled || true,
+                alcMinLevel: filterSettings.alcMinLevel || "",
+                armEnabled: filterSettings.armEnabled || true,
+                armMinLevel: filterSettings.armMinLevel || "",
+                bsmEnabled: filterSettings.bsmEnabled || true,
+                bsmMinLevel: filterSettings.bsmMinLevel || "",
+                crpEnabled: filterSettings.crpEnabled || true,
+                crpMinLevel: filterSettings.crpMinLevel || "",
+                culEnabled: filterSettings.culEnabled || true,
+                culMinLevel: filterSettings.culMinLevel || "",
+                gsmEnabled: filterSettings.gsmEnabled || true,
+                gsmMinLevel: filterSettings.gsmMinLevel || "",
+                ltwEnabled: filterSettings.ltwEnabled || true,
+                ltwMinLevel: filterSettings.ltwMinLevel || "",
+                wvrEnabled: filterSettings.wvrEnabled || true,
+                wvrMinLevel: filterSettings.wvrMinLevel || "",
             }}
             validationSchema={Yup.object({
                 alcMinLevel: Yup.number().integer("Must be an integer"),
@@ -40,6 +43,7 @@ const CraftFiltersForm = (props) => {
             })}
             onSubmit={(values) => {
                 props.setFilterSettings(values);
+                Cookies.set("filterSettings", JSON.stringify(values));
             }}
         >
             <Form>
@@ -109,6 +113,7 @@ const CraftFiltersForm = (props) => {
                         />
                     </div>
                 </div>
+                <button type="submit">Save filters</button>
             </Form>
         </Formik>
     );
