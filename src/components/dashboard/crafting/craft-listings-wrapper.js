@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import CraftCardDataWrapper from "./craft-card-data-wrapper";
+import CraftComponentsWrapper from "./craft-components-wrapper";
 
-const CraftCardsWrapper = (props) => {
+const CraftListingsWrapper = (props) => {
     const populateItems = () => {
         const renderedCrafts = [];
         let i = 0;
@@ -34,7 +34,7 @@ const CraftCardsWrapper = (props) => {
                                 Skip
                             </button>
                         </div>
-                        <CraftCardDataWrapper itemId={item.item_id} />
+                        <CraftComponentsWrapper itemId={item.item_id} />
                     </div>
                 );
             }
@@ -72,4 +72,4 @@ const CraftCardsWrapper = (props) => {
     return <div id="crafting-output-wrapper">{populateItems()}</div>;
 };
 
-export default CraftCardsWrapper;
+export default CraftListingsWrapper;
