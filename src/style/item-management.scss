@@ -2,6 +2,32 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
+    gap: 20px;
+    #item-list-wrapper {
+        width: 100%;
+        .item-list-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .item-wrapper {
+            .btns-wrapper {
+                display: flex;
+                justify-self: flex-end;
+                gap: 5px;
+            }
+        }
+        .Collapsible-is-open {
+            border: 1px white solid;
+            margin-bottom: 10px;
+        }
+        .item-data-wrapper {
+            font-size: 0.9em;
+            margin-left: 20px;
+            margin-bottom: 5px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
     #prune-items-wrapper {
         display: grid;
         grid-template-columns: 1fr;

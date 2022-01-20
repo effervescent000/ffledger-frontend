@@ -31,7 +31,7 @@ const PruneItemsWrapper = (props) => {
     return (
         <div id="prune-items-wrapper">
             <div className="btn">
-                <button onClick={handleClick}>Get item list</button>
+                <button onClick={handleClick}>Find problems</button>
             </div>
 
             {populateItems()}

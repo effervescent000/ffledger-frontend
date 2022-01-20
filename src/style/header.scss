@@ -29,8 +29,10 @@
 
         #admin-wrapper {
             display: flex;
+            align-items: flex-end;
             gap: 20px;
             margin-right: 20px;
+            margin-bottom: 10px;
         }
 
         #account-wrapper {
