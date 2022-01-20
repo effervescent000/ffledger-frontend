@@ -56,6 +56,7 @@ const CraftingFrame = (props) => {
             .get(`${process.env.REACT_APP_DOMAIN}/craft/get`, {
                 withCredentials: true,
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
+                params: filterSettings,
             })
             .then((response) => {
                 sortArray(response.data, {
