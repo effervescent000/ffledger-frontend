@@ -3,10 +3,10 @@ import React from "react";
 const ItemData = (props) => {
     const item = props.item;
     return (
-        <div>
-            <span>Item ID {item.id}</span>
-            <span>Recipes {item.recipes ? item.recipes.length : 0}</span>
-            <span>Used in {item.components ? item.components.length : 0} recipes</span>
+        <div className="item-data-wrapper">
+            <div>Item ID {item.id}</div>
+            <div>Recipes {item.recipes ? item.recipes.length : 0}</div>
+            <div>Used in {item.components ? item.components.length : 0} recipes</div>
         </div>
     );
 };
