@@ -6,7 +6,7 @@ import { isEqual } from "lodash";
 import sortArray from "sort-array";
 
 import StockFrame from "./stock-frame";
-import CraftingWrapper from "./crafting/crafting-wrapper";
+import CraftingFrame from "./crafting/crafting-frame";
 import UndercutFrame from "./undercuts/undercut-frame";
 import InfoFrame from "./info-frame/info-frame";
 import { UserContext } from "../user-context";
@@ -52,7 +52,7 @@ const Dashboard = (props) => {
                     <StockFrame postTransaction={postTransaction} stock={stock} />
                 </div>
                 <div id="center-content-wrapper">
-                    <CraftingWrapper postTransaction={postTransaction} getStock={getStock} />
+                    <CraftingFrame postTransaction={postTransaction} getStock={getStock} />
                     <UndercutFrame />
                 </div>
                 <div id="right-content-wrapper">

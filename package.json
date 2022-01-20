@@ -7,6 +7,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
+    "formik": "^2.2.9",
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",
     "react-collapsible": "^2.8.4",
@@ -19,7 +20,8 @@
     "redux": "^4.1.2",
     "sass": "^1.45.2",
     "sort-array": "^4.1.4",
-    "web-vitals": "^2.1.2"
+    "web-vitals": "^2.1.2",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

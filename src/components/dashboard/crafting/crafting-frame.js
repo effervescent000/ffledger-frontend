@@ -3,20 +3,34 @@ import axios from "axios";
 import sortArray from "sort-array";
 import Cookies from "js-cookie";
 
-import CraftCardsWrapper from "./craft-cards-wrapper";
+import CraftListingsWrapper from "./craft-listings-wrapper";
+import CraftFiltersForm from "../../forms/craft-filters-form";
 import { UserContext } from "../../user-context";
 
-const CraftingWrapper = (props) => {
+const CraftingFrame = (props) => {
     const [numCrafts, setNumCrafts] = useState(1);
     const [crafts, setCrafts] = useState([]);
     const [getCraftsButtonClicked, setGetCraftsButtonClicked] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [classicalDisplay, setClassicalDisplay] = useState("SHOWN");
     const { profile } = useContext(UserContext);
+    const [filterSettings, setFilterSettings] = useState({});
+    const [filterDisplay, setFilterDisplay] = useState("hidden");
+    const [filterOpacity, setFilterOpacity] = useState(0);
 
     useEffect(() => {
         props.getStock();
     }, [crafts]);
+
+    const toggleFilters = () => {
+        if (filterDisplay === "hidden") {
+            setFilterDisplay("visible");
+            setFilterOpacity(1);
+        } else {
+            setFilterOpacity(0);
+            setFilterDisplay("hidden");
+        }
+    };
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -44,7 +58,6 @@ const CraftingWrapper = (props) => {
                 headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
             })
             .then((response) => {
-                // console.log("craft response", response.data);
                 sortArray(response.data, {
                     by: "gph",
                     order: "desc",
@@ -72,7 +85,7 @@ const CraftingWrapper = (props) => {
             return <div>Getting queue...</div>;
         } else if (crafts.length > 0) {
             return (
-                <CraftCardsWrapper
+                <CraftListingsWrapper
                     crafts={crafts}
                     numCrafts={numCrafts}
                     removeCraft={removeCraft}
@@ -115,9 +128,18 @@ const CraftingWrapper = (props) => {
                     Toggle Classical items
                 </button>
             </div>
+            <button name="toggle-filters-btn" onClick={toggleFilters} id="toggle-filters-btn">
+                Filters
+            </button>
+            <div
+                id="filters-wrapper"
+                style={{ visibility: `${filterDisplay}`, opacity: `${filterOpacity}` }}
+            >
+                <CraftFiltersForm setFilterSettings={setFilterSettings} />
+            </div>
             {renderCrafts()}
         </div>
     );
 };
 
-export default CraftingWrapper;
+export default CraftingFrame;

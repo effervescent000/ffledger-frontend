@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { UserContext } from "../../user-context";
 
-const CraftCardDataWrapper = (props) => {
+const CraftComponentsWrapper = (props) => {
     const [display, setDisplay] = useState("none");
     const [cardData, setCardData] = useState([]);
     const { profile } = useContext(UserContext);
@@ -64,4 +64,4 @@ const CraftCardDataWrapper = (props) => {
     );
 };
 
-export default CraftCardDataWrapper;
+export default CraftComponentsWrapper;
