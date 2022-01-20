@@ -12,7 +12,7 @@ import Signup from "./auth/signup";
 import ManageProfiles from "./profiles/manage-profiles";
 import ProfileEdit from "./profiles/profile-edit";
 import ProfileCreate from "./profiles/profile-create";
-import ItemManagement from "./item-management/item-management";
+import ItemManagement from "./item-management/item-management-page";
 import { UserContext } from "./user-context";
 import NoMatch from "./no-match";
 import AccountEditPage from "./auth/account-edit";

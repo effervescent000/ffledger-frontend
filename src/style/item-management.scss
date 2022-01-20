@@ -2,6 +2,17 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
+    #item-list-wrapper {
+        width: 100%;
+        .item-list-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            .btns-wrapper {
+                display: flex;
+                gap: 5px;
+            }
+        }
+    }
     #prune-items-wrapper {
         display: grid;
         grid-template-columns: 1fr;
