@@ -9,7 +9,9 @@ const ItemInfoPanel = (props) => {
             </div>
             <div className="attribute">
                 <div className="label">Crafting cost</div>
-                <div className="value">{props.item.craft_cost} gil</div>
+                <div className="value">
+                    {props.item.craft_cost ? `${props.item.craft_cost} gil` : "N/A"}
+                </div>
             </div>
         </div>
     );
