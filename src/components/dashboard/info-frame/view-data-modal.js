@@ -23,7 +23,7 @@ const ViewDataModal = (props) => {
     const populateTransactions = () => {
         return transactionArray.map((transaction) => {
             return (
-                <div className="transaction-wrapper">
+                <div key={transaction.id} className="transaction-wrapper">
                     <div>{transaction.time}</div>
                     <div>{transaction.amount}</div>
                     <div>{transaction.gil_value}</div>
@@ -41,7 +41,7 @@ const ViewDataModal = (props) => {
             }}
             onAfterOpen={getTransactions}
         >
-            {populateTransactions()}
+            <div id="transaction-array-wrapper">{populateTransactions()}</div>
         </ReactModal>
     );
 };
