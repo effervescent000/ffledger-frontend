@@ -7,8 +7,16 @@ ReactModal.setAppElement("#app-wrapper");
 
 const ViewDataModal = (props) => {
     const [transactionArray, setTransactionArray] = useState([]);
+    const [itemName, setItemName] = useState("");
 
-    const getTransactions = () => {
+    const getData = () => {
+        axios
+            .get(`${process.env.REACT_APP_DOMAIN}/item/get/${props.itemSelectValue}`)
+            .then((response) => {
+                setItemName(response.data.name);
+            })
+            .catch((error) => console.log(error.response));
+
         axios
             .get(`${process.env.REACT_APP_DOMAIN}/transaction/get/item/${props.itemSelectValue}`, {
                 withCredentials: true,
@@ -39,9 +47,19 @@ const ViewDataModal = (props) => {
             onRequestClose={() => {
                 props.setModalIsOpen(false);
             }}
-            onAfterOpen={getTransactions}
+            onAfterOpen={getData}
         >
-            <div id="transaction-array-wrapper">{populateTransactions()}</div>
+            <div className="transaction-array-header">
+                {itemName ? `Transactions for ${itemName}` : null}
+            </div>
+            <div id="transaction-array-wrapper">
+                <div className="transaction-wrapper sub-header">
+                    <div>Time</div>
+                    <div>Amount</div>
+                    <div>Gil</div>
+                </div>
+                {populateTransactions()}
+            </div>
         </ReactModal>
     );
 };
