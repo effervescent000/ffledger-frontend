@@ -4,6 +4,7 @@ import sortArray from "sort-array";
 
 import ItemInfoPanel from "./item-info-panel";
 import { UserContext } from "../../user-context";
+import ViewDataModal from "./view-data-modal";
 
 const InfoFrame = (props) => {
     const { profile } = useContext(UserContext);
@@ -12,6 +13,7 @@ const InfoFrame = (props) => {
     const [amountInput, setAmountInput] = useState(0);
     const [gilInput, setGilInput] = useState(0);
     const [selectedItemStats, setSelectedItemStats] = useState({});
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
         getItemList();
@@ -49,6 +51,7 @@ const InfoFrame = (props) => {
                     },
                 })
                 .then((response) => {
+                    console.log(response.data);
                     setSelectedItemStats(response.data);
                 })
                 .catch((error) => console.log(error.response));
@@ -64,6 +67,12 @@ const InfoFrame = (props) => {
             props.postTransaction(itemSelectValue, amountInput, 0);
         } else if (event.target.name === "remove-stock-btn") {
             props.postTransaction(itemSelectValue, amountInput * -1, 0);
+        } else if (event.target.name === "add-sale-btn") {
+            props.postTransaction(itemSelectValue, amountInput * -1, gilInput);
+        } else if (event.target.name === "add-purchase-btn") {
+            props.postTransaction(itemSelectValue, amountInput, gilInput);
+        } else if (event.target.name === "view-data-btn") {
+            setModalIsOpen(true);
         }
     };
 
@@ -88,9 +97,15 @@ const InfoFrame = (props) => {
                     />
                 </div>
                 <div className="buttons-wrapper">
-                    <button>Add sale</button>
-                    <button>Add purchase</button>
-                    <button>View data</button>
+                    <button name="add-sale-btn" onClick={handleClick}>
+                        Add sale
+                    </button>
+                    <button name="add-purchase-btn" onClick={handleClick}>
+                        Add purchase
+                    </button>
+                    <button name="view-data-btn" onClick={handleClick}>
+                        View data
+                    </button>
                     <button name="remove-stock-btn" onClick={handleClick}>
                         Remove stock
                     </button>
@@ -99,6 +114,7 @@ const InfoFrame = (props) => {
                     </button>
                 </div>
             </div>
+            <ViewDataModal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
             {Object.keys(selectedItemStats).length > 0 ? (
                 <ItemInfoPanel item={selectedItemStats} />
             ) : null}

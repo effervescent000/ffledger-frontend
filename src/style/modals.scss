@@ -1,0 +1,12 @@
+.view-data-modal {
+    position: absolute;
+    top: 15%;
+    bottom: 25%;
+    left: 15%;
+    right: 15%;
+    background: $tertiary-background-color;
+    overflow: auto;
+    border: 1px solid $secondary-accent-color;
+    padding: 20px;
+    border-radius: 10px;
+}
