@@ -1,0 +1,60 @@
+#queue-wrapper {
+    position: relative;
+    .interaction-wrapper {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 2px;
+    }
+    #toggle-filters-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    #filters-wrapper {
+        position: absolute;
+        background-color: $tertiary-background-color;
+        border: $secondary-accent-color 1px solid;
+        padding: 5px;
+        margin: 5px;
+        z-index: 1;
+        transition: 0.3s;
+        form {
+            #entries-wrapper {
+                .job-wrapper {
+                    display: grid;
+                    grid-template-columns: 80px 1fr;
+                    .min-level-input {
+                        display: grid;
+                        grid-template-columns: max-content 1fr;
+                        gap: 10px;
+                    }
+                }
+            }
+        }
+    }
+    #crafting-output-wrapper {
+        .craft-queue-item-wrapper {
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            border: 1px solid $secondary-accent-color;
+            .craft-heading-wrapper {
+                @include crafting-card-grid;
+            }
+            .craft-block-display {
+                font-size: 14px;
+                padding-left: 30px;
+                .card-data-wrapper {
+                    .craft-data-header {
+                        @include crafting-card-grid;
+                    }
+                    .craft-data {
+                        @include crafting-card-grid;
+                    }
+                    .cheaper {
+                        color: $green;
+                    }
+                }
+            }
+        }
+    }
+}

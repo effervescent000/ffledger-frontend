@@ -1,0 +1,43 @@
+#info-frame-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    #info-inputs-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        #entry-wrapper {
+            select {
+                @include input-styling;
+                width: 250px;
+            }
+
+            input[type="number"] {
+                @include input-styling;
+                width: 100px;
+            }
+        }
+
+        .buttons-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+        }
+    }
+    #info-panel-wrapper {
+        width: 50%;
+        .attribute {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+#gil_value {
+    width: 70px;
+}
+
+#amount {
+    width: 60px;
+}

@@ -1,0 +1,14 @@
+#stock-label {
+    font-size: 1.5em;
+    margin: 10px;
+}
+#stock-frame {
+    .stock-item {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        .item-amount-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+    }
+}
