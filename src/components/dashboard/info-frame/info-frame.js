@@ -70,7 +70,7 @@ const InfoFrame = (props) => {
         } else if (event.target.name === "add-sale-btn") {
             props.postTransaction(itemSelectValue, amountInput * -1, gilInput);
         } else if (event.target.name === "add-purchase-btn") {
-            props.postTransaction(itemSelectValue, amountInput, gilInput);
+            props.postTransaction(itemSelectValue, amountInput, gilInput * -1);
         } else if (event.target.name === "view-data-btn") {
             setModalIsOpen(true);
         }
@@ -114,7 +114,11 @@ const InfoFrame = (props) => {
                     </button>
                 </div>
             </div>
-            <ViewDataModal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
+            <ViewDataModal
+                modalIsOpen={modalIsOpen}
+                setModalIsOpen={setModalIsOpen}
+                itemSelectValue={itemSelectValue}
+            />
             {Object.keys(selectedItemStats).length > 0 ? (
                 <ItemInfoPanel item={selectedItemStats} />
             ) : null}
