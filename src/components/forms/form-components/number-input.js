@@ -10,8 +10,8 @@ const NumberInput = ({ label, ...props }) => {
             </div>
             <div className="input-wrapper">
                 <input
-                    className={`number-input ${meta.error && meta.touched ? "error" : null}`}
-                    type="number"
+                    className={`number-input${meta.error && meta.touched ? " error" : ""}`}
+                    type="text"
                     {...field}
                     {...props}
                 />

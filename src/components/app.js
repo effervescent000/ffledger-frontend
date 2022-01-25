@@ -97,16 +97,13 @@ const App = () => {
                             <Route path="/profiles/manage">
                                 <ManageProfiles />
                             </Route>
-                            <Route path="/profile/new">
-                                <ProfileCreate />
-                            </Route>
                             <Route path="/account/edit">
                                 <AccountEditPage />
                             </Route>
                             {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
                                 ? adminRoutes()
                                 : null}
-                            <Route path="/profile/:id">{profileEditRoute()}</Route>
+                            <Route path="/profile/:permalink">{profileEditRoute()}</Route>
                             <Route>
                                 <NoMatch />
                             </Route>
