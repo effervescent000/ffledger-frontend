@@ -7,7 +7,7 @@ const TextInput = ({ label, ...props }) => {
         <div className={props.divclass}>
             <label htmlFor={props.id || props.name}>{label}</label>
             <input
-                className={`text-input ${meta.error && meta.touched ? "error" : null}`}
+                className={`text-input${meta.error && meta.touched ? " error" : ""}`}
                 type="text"
                 {...field}
                 {...props}

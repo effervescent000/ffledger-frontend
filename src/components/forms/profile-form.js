@@ -9,6 +9,7 @@ import SelectField from "./form-components/select-field";
 
 const ProfileForm = (props) => {
     const { profileData } = props;
+    const inputWrapperName = "job-level-input-wrapper";
     const [worlds, setWorlds] = useState([]);
 
     useEffect(() => {
@@ -74,15 +75,43 @@ const ProfileForm = (props) => {
                         <NumberInput
                             label="ALC level"
                             name="alcLevel"
-                            className="job-level-input"
+                            divclass={inputWrapperName}
                         />
-                        <NumberInput label="ARM level" name="armLevel" />
-                        <NumberInput label="BSM level" name="bsmLevel" />
-                        <NumberInput label="CRP level" name="crpLevel" />
-                        <NumberInput label="CUL level" name="culLevel" />
-                        <NumberInput label="GSM level" name="gsmLevel" />
-                        <NumberInput label="LTW level" name="ltwLevel" />
-                        <NumberInput label="WVR level" name="wvrLevel" />
+                        <NumberInput
+                            label="ARM level"
+                            name="armLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="BSM level"
+                            name="bsmLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="CRP level"
+                            name="crpLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="CUL level"
+                            name="culLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="GSM level"
+                            name="gsmLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="LTW level"
+                            name="ltwLevel"
+                            divclass={inputWrapperName}
+                        />
+                        <NumberInput
+                            label="WVR level"
+                            name="wvrLevel"
+                            divclass={inputWrapperName}
+                        />
                         <FieldArray name="retainers">
                             {({ remove, push }) => {
                                 return (
@@ -96,13 +125,16 @@ const ProfileForm = (props) => {
                                                     <TextInput
                                                         label={`Retainer ${index + 1}`}
                                                         name={`retainers.${index}`}
+                                                        divclass="retainer-input"
                                                     />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => remove(index)}
-                                                    >
-                                                        Delete
-                                                    </button>
+                                                    <div className="btn-wrapper">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => remove(index)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             );
                                         })}

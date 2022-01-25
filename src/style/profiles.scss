@@ -25,3 +25,31 @@
         }
     }
 }
+
+// profile form styles
+#profile-form-wrapper {
+    width: fit-content;
+    form {
+        display: grid;
+        gap: 2px;
+        .job-level-input-wrapper {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            .input-wrapper input {
+                @include input-styling();
+                width: 3em;
+            }
+        }
+        #retainers-array-wrapper {
+            .retainer-wrapper {
+                display: grid;
+                grid-template-columns: 4fr 1fr;
+                gap: 10px;
+                .retainer-input {
+                    display: flex;
+                    gap: 10px;
+                }
+            }
+        }
+    }
+}
