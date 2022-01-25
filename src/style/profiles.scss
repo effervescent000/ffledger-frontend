@@ -32,6 +32,13 @@
     form {
         display: grid;
         gap: 2px;
+        .world-select-wrapper {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            select {
+                @include input-styling();
+            }
+        }
         .job-level-input-wrapper {
             display: grid;
             grid-template-columns: 90px 1fr;
@@ -41,14 +48,28 @@
             }
         }
         #retainers-array-wrapper {
+            display: grid;
+            gap: 2px;
             .retainer-wrapper {
                 display: grid;
                 grid-template-columns: 4fr 1fr;
                 gap: 10px;
                 .retainer-input {
                     display: flex;
-                    gap: 10px;
+                    label {
+                        width: 90px;
+                    }
+                    input {
+                        @include input-styling();
+                    }
                 }
+                button {
+                    width: 100%;
+                }
+            }
+            #add-retainer-btn {
+                justify-self: center;
+                margin: 5px 0;
             }
         }
     }

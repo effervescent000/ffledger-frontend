@@ -69,7 +69,7 @@ const ProfileForm = (props) => {
                 const { values } = props;
                 return (
                     <Form>
-                        <SelectField label="World" name="world">
+                        <SelectField label="World" name="world" divclass="world-select-wrapper">
                             {populateWorlds()}
                         </SelectField>
                         <NumberInput
@@ -138,9 +138,11 @@ const ProfileForm = (props) => {
                                                 </div>
                                             );
                                         })}
-                                        <button type="button" onClick={() => push("")}>
-                                            Add retainer
-                                        </button>
+                                        <div id="add-retainer-btn">
+                                            <button type="button" onClick={() => push("")}>
+                                                Add retainer
+                                            </button>
+                                        </div>
                                     </div>
                                 );
                             }}
