@@ -1,25 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 
 import NumberInput from "../forms/form-components/number-input";
 import TextInput from "./form-components/text-input";
+import SelectField from "./form-components/select-field";
 
 const ProfileForm = (props) => {
     const { profileData } = props;
+    const [worlds, setWorlds] = useState([]);
+
+    useEffect(() => {
+        if (worlds.length === 0) {
+            getWorlds();
+        }
+    });
+
+    const getWorlds = () => {
+        axios
+            .get(`${process.env.REACT_APP_DOMAIN}/world/get`)
+            .then((response) => {
+                setWorlds(response.data);
+            })
+            .catch((error) => console.log(error.response));
+    };
+
+    const populateWorlds = () => {
+        return worlds.map((world) => (
+            <option key={world.id} value={world.id}>
+                {world.name}
+            </option>
+        ));
+    };
 
     return (
         <Formik
             initialValues={{
-                alcLevel: profileData.alc_level || "",
-                armLevel: profileData.arm_level || "",
-                bsmLevel: profileData.bsm_level || "",
-                crpLevel: profileData.crp_level || "",
-                culLevel: profileData.cul_level || "",
-                gsmLevel: profileData.gsm_level || "",
-                ltwLevel: profileData.ltw_level || "",
-                wvrLevel: profileData.wvr_level || "",
-                retainers: profileData.retainers
+                world: profileData ? profileData.world.id : "",
+                alcLevel: profileData ? profileData.alc_level : "",
+                armLevel: profileData ? profileData.arm_level : "",
+                bsmLevel: profileData ? profileData.bsm_level : "",
+                crpLevel: profileData ? profileData.crp_level : "",
+                culLevel: profileData ? profileData.cul_level : "",
+                gsmLevel: profileData ? profileData.gsm_level : "",
+                ltwLevel: profileData ? profileData.ltw_level : "",
+                wvrLevel: profileData ? profileData.wvr_level : "",
+                retainers: profileData
                     ? profileData.retainers.map((retainer) => retainer.name)
                     : [],
             }}
@@ -41,7 +68,14 @@ const ProfileForm = (props) => {
                 const { values } = props;
                 return (
                     <Form>
-                        <NumberInput label="ALC level" name="alcLevel" />
+                        <SelectField label="World" name="world">
+                            {populateWorlds()}
+                        </SelectField>
+                        <NumberInput
+                            label="ALC level"
+                            name="alcLevel"
+                            className="job-level-input"
+                        />
                         <NumberInput label="ARM level" name="armLevel" />
                         <NumberInput label="BSM level" name="bsmLevel" />
                         <NumberInput label="CRP level" name="crpLevel" />

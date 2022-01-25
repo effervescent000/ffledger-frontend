@@ -18,6 +18,7 @@ const ProfileEdit = (props) => {
                     headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
                 })
                 .then((response) => {
+                    console.log(response.data);
                     setProfileData(response.data);
                 })
                 .catch((error) => console.log(error.response));

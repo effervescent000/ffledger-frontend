@@ -97,9 +97,6 @@ const App = () => {
                             <Route path="/profiles/manage">
                                 <ManageProfiles />
                             </Route>
-                            {/* <Route path="/profile/new">
-                                <ProfileCreate />
-                            </Route> */}
                             <Route path="/account/edit">
                                 <AccountEditPage />
                             </Route>
@@ -107,9 +104,6 @@ const App = () => {
                                 ? adminRoutes()
                                 : null}
                             <Route path="/profile/:permalink">{profileEditRoute()}</Route>
-                            {/* <Route path="/profile/:permalink">
-                                <ProfileEdit profile={profile} setProfile={setProfile} />
-                            </Route> */}
                             <Route>
                                 <NoMatch />
                             </Route>
