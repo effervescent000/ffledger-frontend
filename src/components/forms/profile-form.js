@@ -6,18 +6,22 @@ import NumberInput from "../forms/form-components/number-input";
 import TextInput from "./form-components/text-input";
 
 const ProfileForm = (props) => {
+    const { profileData } = props;
+
     return (
         <Formik
             initialValues={{
-                alcLevel: "",
-                armLevel: "",
-                bsmLevel: "",
-                crpLevel: "",
-                culLevel: "",
-                gsmLevel: "",
-                ltwLevel: "",
-                wvrLevel: "",
-                retainers: [],
+                alcLevel: profileData.alc_level || "",
+                armLevel: profileData.arm_level || "",
+                bsmLevel: profileData.bsm_level || "",
+                crpLevel: profileData.crp_level || "",
+                culLevel: profileData.cul_level || "",
+                gsmLevel: profileData.gsm_level || "",
+                ltwLevel: profileData.ltw_level || "",
+                wvrLevel: profileData.wvr_level || "",
+                retainers: profileData.retainers
+                    ? profileData.retainers.map((retainer) => retainer.name)
+                    : [],
             }}
             onSubmit={(values) => {
                 props.setFormData(values);
