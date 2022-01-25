@@ -23,6 +23,16 @@ const ProfileForm = (props) => {
                     ? profileData.retainers.map((retainer) => retainer.name)
                     : [],
             }}
+            validationSchema={Yup.object({
+                alcLevel: Yup.number().integer("Must be an integer"),
+                armLevel: Yup.number().integer("Must be an integer"),
+                bsmLevel: Yup.number().integer("Must be an integer"),
+                crpLevel: Yup.number().integer("Must be an integer"),
+                culLevel: Yup.number().integer("Must be an integer"),
+                gsmLevel: Yup.number().integer("Must be an integer"),
+                ltwLevel: Yup.number().integer("Must be an integer"),
+                wvrLevel: Yup.number().integer("Must be an integer"),
+            })}
             onSubmit={(values) => {
                 props.setFormData(values);
             }}
