@@ -22,3 +22,9 @@ a {
 button {
     @include button-styling;
 }
+
+@media (max-width: 900px) {
+    #page-wrapper {
+        padding: 3% 5%;
+    }
+}

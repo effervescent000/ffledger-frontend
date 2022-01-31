@@ -40,3 +40,18 @@
         }
     }
 }
+
+@media (max-width: 900px) {
+    #header-wrapper {
+        #left-side-header {
+            .nav-bar {
+                display: none;
+            }
+        }
+        #right-side-header {
+            #admin-wrapper {
+                display: none;
+            }
+        }
+    }
+}
