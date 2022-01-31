@@ -1,56 +1,22 @@
 import React, { useContext } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 import { UserContext } from "../user-context";
-import AccountEditPage from "./account-edit";
+import LoggedInContent from "./logged-in-content";
 
-const LoggedInHeader = () => {
+const LoggedInHeader = (props) => {
     const userContext = useContext(UserContext);
-
-    const handleClick = (event) => {
-        event.preventDefault();
-        if (userContext.loggedIn) {
-            logoutUser();
-        }
-    };
-
-    const logoutUser = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_DOMAIN}/auth/logout`,
-                {},
-                {
-                    withCredentials: true,
-                    headers: { "X-CSRF-TOKEN": Cookies.get("csrf_access_token") },
-                }
-            )
-            .then((response) => {
-                userContext.setUser({});
-                userContext.setProfile({});
-                userContext.toggleLogIn();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log("error response", error.response);
-                } else {
-                    console.log("some other error logging out", error.response);
-                }
-            });
-    };
 
     return (
         <div id="logged-in">
-            <div id="greeting">Hi {userContext.user.username}</div>
-            <div className="link-wrapper">
-                <Link to="/account/edit">Edit account</Link>
+            <div className="full-menu">
+                <div id="greeting">Hi {userContext.user.username}</div>
+                <LoggedInContent />
             </div>
-            <div className="link-wrapper">
-                <Link to="/profiles/manage">Manage profiles</Link>
-            </div>
-            <div id="logout">
-                <button onClick={handleClick}>Logout</button>
+            <div className="hamburger-menu">
+                <FontAwesomeIcon icon={faBars} onClick={props.toggleMenuDisplay} />
             </div>
         </div>
     );
