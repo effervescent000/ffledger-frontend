@@ -41,3 +41,9 @@
         }
     }
 }
+
+@media (max-width: 900px) {
+    #item-management-wrapper {
+        grid-template-columns: 1fr;
+    }
+}

@@ -21,7 +21,9 @@ const Header = () => {
         <div id="header-wrapper">
             <div id="left-side-header">
                 <div className="logo">
-                    <span>FFXIV Ledger</span>
+                    <NavLink exact to="/">
+                        <span>FFXIV Ledger</span>
+                    </NavLink>
                 </div>
                 <div className="nav-bar">
                     <NavLink exact to="/">
