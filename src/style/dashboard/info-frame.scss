@@ -10,11 +10,13 @@
             select {
                 @include input-styling;
                 width: 250px;
+                margin: 0 2px;
             }
 
             input[type="number"] {
                 @include input-styling;
                 width: 100px;
+                margin: 0 2px;
             }
         }
 
@@ -40,4 +42,25 @@
 
 #amount {
     width: 60px;
+}
+
+@media (max-width: 900px) {
+    #info-frame-wrapper {
+        #info-inputs-wrapper {
+            #entry-wrapper {
+                select {
+                    font-size: 1.1em;
+                    width: 49%;
+                }
+
+                input[type="number"] {
+                    font-size: 1.1em;
+                    width: 23%;
+                }
+            }
+
+            .buttons-wrapper {
+            }
+        }
+    }
 }

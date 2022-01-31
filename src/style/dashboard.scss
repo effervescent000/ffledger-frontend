@@ -20,3 +20,19 @@
         gap: 4em;
     }
 }
+
+@media (max-width: 900px) {
+    #content-wrapper {
+        display: flex;
+        flex-direction: column;
+        #left-content-wrapper {
+            order: 3;
+        }
+        #center-content-wrapper {
+            order: 2;
+        }
+        #right-content-wrapper {
+            order: 1;
+        }
+    }
+}
