@@ -58,3 +58,39 @@
         }
     }
 }
+
+@media (max-width: 400px) {
+    #queue-wrapper {
+        #toggle-filters-btn {
+            position: relative;
+        }
+    }
+}
+
+@media (max-width: 350px) {
+    #queue-wrapper {
+        .interaction-wrapper {
+            flex-direction: column;
+        }
+        #toggle-filters-btn {
+            width: 100%;
+            margin-top: 3px;
+        }
+        #filters-wrapper {
+            form {
+                #entries-wrapper {
+                    .job-wrapper {
+                        .min-level-input {
+                            display: grid;
+                            grid-template-columns: max-content 1fr;
+                            gap: 10px;
+                            input {
+                                width: 3em;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
