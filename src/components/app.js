@@ -102,7 +102,9 @@ const App = () => {
                             {loggedIn && Object.keys(user).length > 0 && user.roles === "admin"
                                 ? adminRoutes()
                                 : null}
-                            <Route path="/profile/:permalink">{profileEditRoute()}</Route>
+                            <Route path="/profile/:permalink">
+                                <ProfileEdit profile={profile} setProfile={setProfile} />
+                            </Route>
                             <Route>
                                 <NoMatch />
                             </Route>
